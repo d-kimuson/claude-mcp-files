@@ -1,0 +1,26 @@
+{
+  "version": "1.0.0",
+  "mcps": {
+    "filesystem": {
+      "path": "./mcps/filesystem-mcp",
+      "enabled": true
+    },
+    "command-executor": {
+      "path": "./mcps/command-executor-mcp",
+      "enabled": true
+    },
+    "brave": {
+      "path": "./mcps/brave-mcp",
+      "enabled": true
+    },
+    "sequentialthinking": {
+      "path": "./mcps/sequentialthinking-mcp",
+      "enabled": true
+    }
+  },
+  "settings": {
+    "defaultTimeout": 30000,
+    "maxConcurrentExecutions": 4,
+    "logLevel": "info"
+  }
+}
