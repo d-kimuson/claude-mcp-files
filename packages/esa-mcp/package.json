@@ -9,18 +9,23 @@
     "dev:docs": "redocly preview-docs",
     "build:docs": "redocly build-docs -o ./dist/doc/index.html",
     "lint:redocly": "redocly lint",
+    "gen:api-client": "orval",
     "build": "tsc",
     "dev": "tsc --watch",
     "test": "vitest run"
   },
   "dependencies": {
+    "@faker-js/faker": "^9.3.0",
     "@modelcontextprotocol/sdk": "^1.0.4",
     "axios": "^1.7.9",
-    "zod": "^3.24.1"
+    "zod": "^3.24.1",
+    "zod-to-json-schema": "^3.24.1"
   },
   "devDependencies": {
     "@redocly/cli": "^1.26.1",
     "@types/node": "^22.10.2",
+    "msw": "^2.7.0",
+    "orval": "^7.3.0",
     "typescript": "^5.3.3",
     "vitest": "^1.2.0"
   }

@@ -1,97 +1,73 @@
-import { Server } from "@modelcontextprotocol/sdk/server";
-import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio";
+import { Server } from "@modelcontextprotocol/sdk/server/index.js";
+import { CallToolRequestSchema, ListToolsRequestSchema } from '@modelcontextprotocol/sdk/types.js'
 import { z } from "zod";
-import axios from "axios";
+import { getV1TeamsTeamNamePosts } from './generated/esa-api/esaAPI'
+import { zodToJsonSchema } from "zod-to-json-schema";
 
-const AccessTokenSchema = z.object({
-  accessToken: z.string(),
-  teamName: z.string(),
+const server = new Server({
+  name: "esa-server",
+  version: "1.0.0",
+}, {
+  capabilities: {
+    resources: {}
+  }
 });
 
-export class EsaMCPServer extends Server {
-  private accessToken?: string;
-  private teamName?: string;
-  private baseUrl = "https://api.esa.io/v1";
+const searchPostsSchema = z.object({
+  team: z.string(),
+  query: z.string(),
+  order: z.union([z.literal("asc"), z.literal("desc")]).default("desc"),
+  sort: z.union([z.literal("created"), z.literal("updated"), z.literal("number"), z.literal("stars"), z.literal("comments"), z.literal("best_match")]).default("best_match").optional(),
+  page: z.number().optional(),
+})
 
-  constructor() {
-    super(
+server.setRequestHandler(ListToolsRequestSchema, async () => {
+  return {
+    tools: [
       {
-        name: "esa-mcp",
-        version: "0.1.0",
-      },
-      {
-        capabilities: {
-          resources: {},
-          prompts: {},
-        },
+        name: "search_posts",
+        description: "Search posts in esa.io. Response is paginated.",
+        inputSchema: zodToJsonSchema(searchPostsSchema)
       }
-    );
-
-    this.setRequestHandler("resources/list", async () => {
-      const posts = await this.listPosts();
-      return {
-        resources: posts.map(post => ({
-          uri: `esa://${this.teamName}/posts/${post.number}`,
-          name: post.name,
-          description: `Category: ${post.category || 'None'}, Tags: ${post.tags.join(', ')}`,
-        })),
-      };
-    });
-
-    this.setRequestHandler("resources/read", async (request) => {
-      const uri = request.params.uri as string;
-      const match = uri.match(/^esa:\/\/([^/]+)\/posts\/(\d+)$/);
-      if (!match) throw new Error("Invalid URI format");
-
-      const [, team, postNumber] = match;
-      if (team !== this.teamName) throw new Error("Team mismatch");
-
-      const post = await this.getPost(parseInt(postNumber));
-      return {
-        contents: [
-          {
-            uri: request.params.uri,
-            mimeType: "text/markdown",
-            text: post.body_md,
-          },
-        ],
-      };
-    });
-
-    this.setRequestHandler("prompts/init", async (request) => {
-      const { accessToken, teamName } = AccessTokenSchema.parse(request.params);
-      this.accessToken = accessToken;
-      this.teamName = teamName;
-      return { success: true };
-    });
+    ]
   }
+})
 
-  private async listPosts() {
-    if (!this.accessToken || !this.teamName) throw new Error("Not initialized");
+server.setRequestHandler(CallToolRequestSchema, async (request) => {
+  try {
+    const { name, arguments: args } = request.params;
 
-    const response = await axios.get(`${this.baseUrl}/teams/${this.teamName}/posts`, {
-      headers: { Authorization: `Bearer ${this.accessToken}` },
-    });
+    switch (name) {
+      case 'search_posts':
+        const parsed = searchPostsSchema.safeParse(args);
+        if (!parsed.success) {
+          throw new Error(`Invalid arguments for search_posts: ${parsed.error}`);
+        }
 
-    return response.data.posts;
+        const response = await getV1TeamsTeamNamePosts(parsed.data.team, {
+          q: parsed.data.query,
+          order: parsed.data.order,
+          sort: parsed.data.sort,
+        }, {
+          headers: {
+            // TODO: api key の設定が必要
+            Authorization: `Bearer FIXME`
+          }
+        })
+
+        return {
+          posts: response.data.posts ?? [],
+          nextPage: response.data.next_page
+        }
+
+      default:
+        throw new Error(`Unknown tool: ${name}`);
+    }
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    return {
+      content: [{ type: "text", text: `Error: ${errorMessage}` }],
+      isError: true,
+    };
   }
-
-  private async getPost(number: number) {
-    if (!this.accessToken || !this.teamName) throw new Error("Not initialized");
-
-    const response = await axios.get(
-      `${this.baseUrl}/teams/${this.teamName}/posts/${number}`,
-      {
-        headers: { Authorization: `Bearer ${this.accessToken}` },
-      }
-    );
-
-    return response.data;
-  }
-}
-
-if (require.main === module) {
-  const server = new EsaMCPServer();
-  const transport = new StdioServerTransport();
-  await server.connect(transport);
-}
+});
