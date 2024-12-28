@@ -4,7 +4,11 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "format": "prettier --write .",
+    "lint": "pnpm /^lint:.*/",
+    "lint:prettier": "pnpm run:prettier . --check",
+    "fix": "pnpm /^fix:.*/",
+    "fix:prettier": "pnpm run:prettier . --write",
+    "run:prettier": "prettier --ignore-unknown --no-error-on-unmatched-pattern --cache",
     "generate:config": "direnv allow && tsx ./scripts/generate-config.js",
     "generate:env": "op inject -i .env.secret.template -o .env.secret"
   },
