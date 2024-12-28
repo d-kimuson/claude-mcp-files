@@ -2,6 +2,14 @@
 
 Claude MCPサーバー用の設定・MCP管理リポジトリ
 
+## Requirements
+
+- Node.js (specified [.node-version](./.node-version))
+- [pnpm](https://pnpm.io/)
+- [uv](https://docs.astral.sh/uv/)
+- [1Password CLI](https://developer.1password.com/docs/cli/)
+- [direnv](https://github.com/direnv/direnv)
+
 ## セットアップ
 
 ```bash
