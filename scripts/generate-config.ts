@@ -99,7 +99,9 @@ const commandExecutorServer = defineMcpServer(
   }),
   ({ env }) => ({
     command: env.MCP_NODE_PATH,
-    args: [resolve(repoRoot, "command-executor-mcp", "build", "index.js")],
+    args: [
+      resolve(repoRoot, "mcps", "command-executor-mcp", "build", "index.js"),
+    ],
   })
 )
 
@@ -130,6 +132,7 @@ const generateConfig = async () => {
   const env = v.parse(
     v.object({
       MCP_DISABLE: envSchemas.MCP_DISABLE,
+      MCP_GLOBAL_SHORTCUT: envSchemas.MCP_GLOBAL_SHORTCUT,
     }),
     process.env
   )
@@ -146,20 +149,22 @@ const generateConfig = async () => {
     })
   )
 
-  return configs
-    .filter((config) => config !== null)
-    .reduce(
-      (s, t) => ({
-        ...s,
-        [t.name]: t.config,
-      }),
-      {}
-    )
+  return {
+    mcpServers: configs
+      .filter((config) => config !== null)
+      .reduce(
+        (s, t) => ({
+          ...s,
+          [t.name]: t.config,
+        }),
+        {}
+      ),
+    globalShortcut: env.MCP_GLOBAL_SHORTCUT,
+  }
 }
 
 const main = async () => {
   const config = await generateConfig()
-
   console.log("Configuration generated.", config)
 
   const outputPath = resolve(repoRoot, "claude_desktop_config.json")
@@ -167,7 +172,7 @@ const main = async () => {
   console.log("Configuration file written to", outputPath)
 
   execSync(
-    `cp -f '${outputPath}' '${homeDir}/Library/Application Support/Claude/claude_desktop_config.json'`,
+    `ln -s -f '${outputPath}' '${homeDir}/Library/Application Support/Claude/claude_desktop_config.json'`,
     { stdio: "inherit" }
   )
   console.log("Configuration file copied to Claude Config.")
