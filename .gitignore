@@ -9,3 +9,5 @@ claude_desktop_config.json
 .env.secret
 
 .turbo
+
+.cspellcache

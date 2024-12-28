@@ -7,6 +7,7 @@
     "lint": "pnpm /^lint:.*/",
     "lint:turbo": "turbo run lint",
     "lint:prettier": "pnpm run:prettier . --check",
+    "lint:cspell": "cspell lint './**/*.{tsx,ts,mts,mcs,mjs,cjs,js,json,md,yml,yaml}' --gitignore --cache",
     "fix": "pnpm /^fix:.*/",
     "fix:turbo": "turbo run fix",
     "fix:prettier": "pnpm run:prettier . --write",
@@ -20,6 +21,7 @@
   },
   "devDependencies": {
     "@types/node": "^22.10.2",
+    "cspell": "^8.17.1",
     "prettier": "^3.4.2",
     "tsx": "^4.19.2",
     "turbo": "^2.3.3",

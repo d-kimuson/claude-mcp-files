@@ -1,0 +1,27 @@
+{
+  "version": "0.2",
+  "language": "en",
+  "words": [
+    "valibot",
+    "modelcontextprotocol",
+    "mcps",
+    "kimuson",
+    "Unstar",
+    "commentsstargazers",
+    "redocly",
+    "venv",
+    "mypy",
+    "myenv",
+    "cowsay",
+    "oneline",
+    "direnv",
+    "petstore",
+    "tfvars",
+    "envrc"
+  ],
+  "ignorePaths": [
+    "pnpm-lock.yaml",
+    ".vscode/settings.json",
+    "packages/*/.eslintrc.cjs"
+  ]
+}
