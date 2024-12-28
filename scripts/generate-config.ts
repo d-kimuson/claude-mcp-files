@@ -167,10 +167,10 @@ const main = async () => {
   console.log("Configuration file written to", outputPath)
 
   execSync(
-    `cd '${homeDir}/Library/Application Support/Claude' && ln -f -s '${outputPath}' ./claude_desktop_config.json`,
+    `cp -f '${outputPath}' '${homeDir}/Library/Application Support/Claude/claude_desktop_config.json'`,
     { stdio: "inherit" }
   )
-  console.log("Configuration file linked to Claude Config.")
+  console.log("Configuration file copied to Claude Config.")
 }
 
 await main()
