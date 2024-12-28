@@ -6,12 +6,15 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
+    "dev": "pnpm /^dev:.*/",
+    "dev:tsc": "tsc --watch",
+    "dev:openapi": "orval -w",
     "dev:docs": "redocly preview-docs",
-    "build:docs": "redocly build-docs -o ./dist/doc/index.html",
-    "lint:redocly": "redocly lint",
-    "gen:api-client": "orval",
-    "build": "tsc",
-    "dev": "tsc --watch",
+    "lint": "redocly lint",
+    "typecheck": "tsc -p . --noEmit",
+    "build": "pnpm build:orval && pnpm build:esbuild",
+    "build:esbuild": "esbuild ./src/index.ts --format=esm --platform=node --bundle --packages=external --outdir=dist",
+    "build:orval": "orval",
     "test": "vitest run"
   },
   "dependencies": {
@@ -24,6 +27,7 @@
   "devDependencies": {
     "@redocly/cli": "^1.26.1",
     "@types/node": "^22.10.2",
+    "esbuild": "^0.24.2",
     "msw": "^2.7.0",
     "orval": "^7.3.0",
     "typescript": "^5.3.3",
