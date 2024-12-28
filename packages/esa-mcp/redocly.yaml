@@ -1,0 +1,14 @@
+extends:
+  - recommended
+
+apis:
+  esa@v1:
+    root: ./openapi-spec/openapi.json
+    rules:
+      operation-operationId: off
+      info-license: off
+      struct: off
+
+theme:
+  openapi:
+    schemasExpansionLevel: 2

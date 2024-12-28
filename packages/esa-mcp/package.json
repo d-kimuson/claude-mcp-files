@@ -6,6 +6,9 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
+    "dev:docs": "redocly preview-docs",
+    "build:docs": "redocly build-docs -o ./dist/doc/index.html",
+    "lint:redocly": "redocly lint",
     "build": "tsc",
     "dev": "tsc --watch",
     "test": "vitest run"
@@ -16,6 +19,7 @@
     "zod": "^3.24.1"
   },
   "devDependencies": {
+    "@redocly/cli": "^1.26.1",
     "@types/node": "^22.10.2",
     "typescript": "^5.3.3",
     "vitest": "^1.2.0"

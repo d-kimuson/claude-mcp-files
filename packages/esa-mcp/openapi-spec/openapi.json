@@ -245,6 +245,14 @@
             "format": "uri"
           }
         }
+      },
+      "ErrorResponseBody": {
+        "type": "object",
+        "properties": {
+          "message": {"type": "string"},
+          "error": {"type": "string"}
+        },
+        "required": ["message", "error"]
       }
     }
   }

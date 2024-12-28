@@ -2,6 +2,7 @@
   "paths": {
     "/v1/teams": {
       "get": {
+        "tags": ["Team"],
         "summary": "List teams",
         "security": [{"bearerAuth": []}],
         "parameters": [{
@@ -29,12 +30,38 @@
                 }
               }
             }
+          },
+          "400": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "401": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "404": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "409": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "429": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
           }
         }
       }
     },
     "/v1/teams/{team_name}": {
       "get": {
+        "tags": ["Team"],
         "summary": "Get a team",
         "security": [{"bearerAuth": []}],
         "parameters": [{"$ref": "./openapi.json#/components/parameters/teamName"}],
@@ -46,12 +73,38 @@
                 "schema": {"$ref": "./openapi.json#/components/schemas/Team"}
               }
             }
+          },
+          "400": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "401": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "404": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "409": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "429": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
           }
         }
       }
     },
     "/v1/teams/{team_name}/stats": {
       "get": {
+        "tags": ["Team"],
         "summary": "Get team statistics",
         "security": [{"bearerAuth": []}],
         "parameters": [{"$ref": "./openapi.json#/components/parameters/teamName"}],
@@ -75,6 +128,31 @@
                   }
                 }
               }
+            }
+          },
+          "400": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "401": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "404": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "409": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "429": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
             }
           }
         }

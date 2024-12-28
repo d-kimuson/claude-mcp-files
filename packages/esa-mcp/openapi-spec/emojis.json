@@ -2,6 +2,7 @@
   "paths": {
     "/v1/teams/{team_name}/emojis": {
       "get": {
+        "tags": ["Emoji"],
         "summary": "List emojis",
         "security": [{"bearerAuth": []}],
         "parameters": [
@@ -47,10 +48,36 @@
                 }
               }
             }
+          },
+          "400": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "401": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "404": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "409": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "429": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
           }
         }
       },
       "post": {
+        "tags": ["Emoji"],
         "summary": "Create a new emoji",
         "security": [{"bearerAuth": []}],
         "parameters": [
@@ -103,12 +130,38 @@
                 }
               }
             }
+          },
+          "400": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "401": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "404": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "409": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "429": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
           }
         }
       }
     },
     "/v1/teams/{team_name}/emojis/{code}": {
       "delete": {
+        "tags": ["Emoji"],
         "summary": "Delete an emoji",
         "security": [{"bearerAuth": []}],
         "parameters": [
@@ -121,7 +174,32 @@
           }
         ],
         "responses": {
-          "204": {"description": "Emoji deleted"}
+          "204": {"description": "Emoji deleted"},
+          "400": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "401": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "404": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "409": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "429": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          }
         }
       }
     }

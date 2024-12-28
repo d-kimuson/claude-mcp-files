@@ -2,6 +2,7 @@
   "paths": {
     "/v1/teams/{team_name}/invitation": {
       "get": {
+        "tags": ["Invitation"],
         "summary": "Get team invitation URL",
         "security": [{"bearerAuth": []}],
         "parameters": [
@@ -23,12 +24,38 @@
                 }
               }
             }
+          },
+          "400": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "401": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "404": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "409": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "429": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
           }
         }
       }
     },
     "/v1/teams/{team_name}/invitation_regenerator": {
       "post": {
+        "tags": ["Invitation"],
         "summary": "Regenerate team invitation URL",
         "security": [{"bearerAuth": []}],
         "parameters": [
@@ -50,12 +77,38 @@
                 }
               }
             }
+          },
+          "400": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "401": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "404": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "409": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "429": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
           }
         }
       }
     },
     "/v1/teams/{team_name}/invitations": {
       "get": {
+        "tags": ["Invitation"],
         "summary": "List pending invitations",
         "security": [{"bearerAuth": []}],
         "parameters": [
@@ -97,10 +150,36 @@
                 }
               }
             }
+          },
+          "400": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "401": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "404": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "409": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "429": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
           }
         }
       },
       "post": {
+        "tags": ["Invitation"],
         "summary": "Send email invitations",
         "security": [{"bearerAuth": []}],
         "parameters": [
@@ -168,12 +247,38 @@
                 }
               }
             }
+          },
+          "400": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "401": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "404": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "409": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "429": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
           }
         }
       }
     },
     "/v1/teams/{team_name}/invitations/{code}": {
       "delete": {
+        "tags": ["Invitation"],
         "summary": "Delete an invitation",
         "security": [{"bearerAuth": []}],
         "parameters": [
@@ -186,7 +291,32 @@
           }
         ],
         "responses": {
-          "204": {"description": "Invitation deleted"}
+          "204": {"description": "Invitation deleted"},
+          "400": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "401": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "404": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "409": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "429": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          }
         }
       }
     }

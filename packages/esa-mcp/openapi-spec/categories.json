@@ -2,6 +2,7 @@
   "paths": {
     "/v1/teams/{team_name}/categories/batch_move": {
       "post": {
+        "tags": ["Category"],
         "summary": "Batch move categories",
         "security": [{"bearerAuth": []}],
         "parameters": [
@@ -49,6 +50,31 @@
                   }
                 }
               }
+            }
+          },
+          "400": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "401": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "404": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "409": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "429": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
             }
           }
         }

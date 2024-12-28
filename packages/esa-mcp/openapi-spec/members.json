@@ -2,6 +2,7 @@
   "paths": {
     "/v1/teams/{team_name}/members": {
       "get": {
+        "tags": ["Member"],
         "summary": "List team members",
         "security": [{"bearerAuth": []}],
         "parameters": [
@@ -42,12 +43,38 @@
                 }
               }
             }
+          },
+          "400": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "401": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "404": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "409": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "429": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
           }
         }
       }
     },
     "/v1/teams/{team_name}/members/{screen_name_or_email}": {
       "get": {
+        "tags": ["Member"],
         "summary": "Get a team member",
         "security": [{"bearerAuth": []}],
         "parameters": [
@@ -68,10 +95,36 @@
                 "schema": {"$ref": "#/components/schemas/Member"}
               }
             }
+          },
+          "400": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "401": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "404": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "409": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "429": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
           }
         }
       },
       "delete": {
+        "tags": ["Member"],
         "summary": "Remove a team member",
         "security": [{"bearerAuth": []}],
         "parameters": [
@@ -84,7 +137,32 @@
           }
         ],
         "responses": {
-          "204": {"description": "Member removed"}
+          "204": {"description": "Member removed"},
+          "400": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "401": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "404": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "409": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "429": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          }
         }
       }
     }

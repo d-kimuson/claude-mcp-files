@@ -2,6 +2,7 @@
   "paths": {
     "/v1/teams/{team_name}/posts/{post_number}/stargazers": {
       "get": {
+        "tags": ["Star"],
         "summary": "List post stargazers",
         "security": [{"bearerAuth": []}],
         "parameters": [
@@ -42,12 +43,38 @@
                 }
               }
             }
+          },
+          "400": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "401": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "404": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "409": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "429": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
           }
         }
       }
     },
     "/v1/teams/{team_name}/posts/{post_number}/star": {
       "post": {
+        "tags": ["Star"],
         "summary": "Star a post",
         "security": [{"bearerAuth": []}],
         "parameters": [
@@ -72,10 +99,36 @@
           }
         },
         "responses": {
-          "204": {"description": "Post starred"}
+          "204": {"description": "Post starred"},
+          "400": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "401": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "404": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "409": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "429": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          }
         }
       },
       "delete": {
+        "tags": ["Star"],
         "summary": "Unstar a post",
         "security": [{"bearerAuth": []}],
         "parameters": [
@@ -88,12 +141,38 @@
           }
         ],
         "responses": {
-          "204": {"description": "Star removed"}
+          "204": {"description": "Star removed"},
+          "400": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "401": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "404": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "409": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "429": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          }
         }
       }
     },
     "/v1/teams/{team_name}/comments/{comment_id}/stargazers": {
       "get": {
+        "tags": ["Star"],
         "summary": "List comment stargazers",
         "security": [{"bearerAuth": []}],
         "parameters": [
@@ -134,12 +213,38 @@
                 }
               }
             }
+          },
+          "400": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "401": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "404": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "409": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "429": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
           }
         }
       }
     },
     "/v1/teams/{team_name}/comments/{comment_id}/star": {
       "post": {
+        "tags": ["Star"],
         "summary": "Star a comment",
         "security": [{"bearerAuth": []}],
         "parameters": [
@@ -164,10 +269,36 @@
           }
         },
         "responses": {
-          "204": {"description": "Comment starred"}
+          "204": {"description": "Comment starred"},
+          "400": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "401": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "404": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "409": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "429": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          }
         }
       },
       "delete": {
+        "tags": ["Star"],
         "summary": "Unstar a comment",
         "security": [{"bearerAuth": []}],
         "parameters": [
@@ -180,7 +311,32 @@
           }
         ],
         "responses": {
-          "204": {"description": "Star removed"}
+          "204": {"description": "Star removed"},
+          "400": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "401": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "404": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "409": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "429": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          }
         }
       }
     }

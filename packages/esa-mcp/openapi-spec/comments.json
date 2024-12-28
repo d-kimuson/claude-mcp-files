@@ -2,6 +2,7 @@
   "paths": {
     "/v1/teams/{team_name}/posts/{post_number}/comments": {
       "get": {
+        "tags": ["Comment"],
         "summary": "List comments on a post",
         "security": [{"bearerAuth": []}],
         "parameters": [
@@ -30,13 +31,47 @@
                 }
               }
             }
+          },
+          "400": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "401": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "404": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "409": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "429": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
           }
         }
       },
       "post": {
+        "tags": ["Comment"],
         "summary": "Create a comment",
         "security": [{"bearerAuth": []}],
-        "parameters": [{"$ref": "./openapi.json#/components/parameters/teamName"}],
+        "parameters": [
+          {"$ref": "./openapi.json#/components/parameters/teamName"},
+          {
+            "name": "post_number",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "integer"}
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -65,11 +100,37 @@
                 "schema": {"$ref": "./openapi.json#/components/schemas/Comment"}
               }
             }
+          },
+          "400": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "401": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "404": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "409": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "429": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
           }
         }
       }
     },
     "/v1/teams/{team_name}/comments/{comment_id}": {
+      "tags": ["Comment"],
       "parameters": [
         {"$ref": "./openapi.json#/components/parameters/teamName"},
         {
@@ -80,6 +141,7 @@
         }
       ],
       "get": {
+        "tags": ["Comment"],
         "summary": "Get a comment",
         "security": [{"bearerAuth": []}],
         "parameters": [
@@ -100,10 +162,36 @@
                 "schema": {"$ref": "./openapi.json#/components/schemas/Comment"}
               }
             }
+          },
+          "400": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "401": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "404": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "409": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "429": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
           }
         }
       },
       "patch": {
+        "tags": ["Comment"],
         "summary": "Update a comment",
         "security": [{"bearerAuth": []}],
         "requestBody": {
@@ -133,19 +221,71 @@
                 "schema": {"$ref": "./openapi.json#/components/schemas/Comment"}
               }
             }
+          },
+          "400": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "401": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "404": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "409": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "429": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
           }
         }
       },
       "delete": {
+        "tags": ["Comment"],
         "summary": "Delete a comment",
         "security": [{"bearerAuth": []}],
         "responses": {
-          "204": {"description": "Comment deleted"}
+          "204": {"description": "Comment deleted"},
+          "400": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "401": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "404": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "409": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "429": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          }
         }
       }
     },
     "/v1/teams/{team_name}/comments": {
       "get": {
+        "tags": ["Comment"],
         "summary": "List all team comments",
         "security": [{"bearerAuth": []}],
         "parameters": [{"$ref": "./openapi.json#/components/parameters/teamName"}],
@@ -165,6 +305,31 @@
                   "allOf": [{"$ref": "./openapi.json#/components/schemas/Pagination"}]
                 }
               }
+            }
+          },
+          "400": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "401": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "404": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "409": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "429": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
             }
           }
         }

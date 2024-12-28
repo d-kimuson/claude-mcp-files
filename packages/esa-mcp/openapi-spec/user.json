@@ -2,6 +2,7 @@
   "paths": {
     "/v1/user": {
       "get": {
+        "tags": ["User"],
         "summary": "Get authenticated user",
         "security": [{"bearerAuth": []}],
         "parameters": [
@@ -44,6 +45,31 @@
                   }
                 }
               }
+            }
+          },
+          "400": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "401": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "404": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "409": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "429": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
             }
           }
         }

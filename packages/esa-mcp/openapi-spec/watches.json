@@ -2,6 +2,7 @@
   "paths": {
     "/v1/teams/{team_name}/posts/{post_number}/watchers": {
       "get": {
+        "tags": ["Watch"],
         "summary": "List post watchers",
         "security": [{"bearerAuth": []}],
         "parameters": [
@@ -39,12 +40,38 @@
                 }
               }
             }
+          },
+          "400": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "401": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "404": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "409": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "429": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
           }
         }
       }
     },
     "/v1/teams/{team_name}/posts/{post_number}/watch": {
       "post": {
+        "tags": ["Watch"],
         "summary": "Watch a post",
         "security": [{"bearerAuth": []}],
         "parameters": [
@@ -57,10 +84,36 @@
           }
         ],
         "responses": {
-          "204": {"description": "Post watched"}
+          "204": {"description": "Post watched"},
+          "400": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "401": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "404": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "409": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "429": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          }
         }
       },
       "delete": {
+        "tags": ["Watch"],
         "summary": "Unwatch a post",
         "security": [{"bearerAuth": []}],
         "parameters": [
@@ -73,7 +126,32 @@
           }
         ],
         "responses": {
-          "204": {"description": "Watch removed"}
+          "204": {"description": "Watch removed"},
+          "400": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "401": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "404": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "409": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          },
+          "429": {
+            "content": {
+              "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
+            }
+          }
         }
       }
     }
