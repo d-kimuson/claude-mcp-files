@@ -10,6 +10,7 @@ const homeDir = execSync("echo $HOME", { encoding: "utf-8" }).trim()
 
 const envSchemas = {
   MCP_BRAVE_API_KEY: v.string(),
+  MCP_ESA_API_KEY: v.string(),
   MCP_NODE_PATH: v.optional(v.string(), "node"),
   MCP_NPX_PATH: v.optional(v.string(), "npx"),
   /**
@@ -28,6 +29,7 @@ const envSchemas = {
 type McpServer = {
   command: string
   args?: ReadonlyArray<string>
+  env?: Record<string, string>
 }
 
 const defineMcpServer = <
@@ -74,7 +76,7 @@ const braveSearchServer = defineMcpServer(
     command: env.MCP_NPX_PATH,
     args: ["-y", "@modelcontextprotocol/server-brave-search"],
     env: {
-      MCP_BRAVE_API_KEY: env.MCP_BRAVE_API_KEY,
+      BRAVE_API_KEY: env.MCP_BRAVE_API_KEY,
     },
   })
 )
@@ -105,10 +107,14 @@ const esaServer = defineMcpServer(
   "esa",
   v.object({
     MCP_NODE_PATH: envSchemas.MCP_NODE_PATH,
+    MCP_ESA_API_KEY: envSchemas.MCP_ESA_API_KEY,
   }),
   ({ env }) => ({
     command: env.MCP_NODE_PATH,
     args: [resolve(repoRoot, "packages", "esa-mcp", "dist", "index.js")],
+    env: {
+      ESA_API_KEY: env.MCP_ESA_API_KEY,
+    },
   })
 )
 

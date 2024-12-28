@@ -6,11 +6,18 @@ import {
 import { z } from "zod"
 import { getV1TeamsTeamNamePosts } from "./generated/esa-api/esaAPI"
 import { zodToJsonSchema } from "zod-to-json-schema"
+import { version } from "../package.json"
+
+const env = z
+  .object({
+    ESA_API_KEY: z.string(),
+  })
+  .parse(process.env)
 
 const server = new Server(
   {
     name: "esa-server",
-    version: "1.0.0",
+    version: version,
   },
   {
     capabilities: {
@@ -69,8 +76,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           },
           {
             headers: {
-              // TODO: api key の設定が必要
-              Authorization: `Bearer FIXME`,
+              Authorization: `Bearer ${env.ESA_API_KEY}`,
             },
           }
         )
