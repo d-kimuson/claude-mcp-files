@@ -5,17 +5,22 @@
   "type": "module",
   "scripts": {
     "lint": "pnpm /^lint:.*/",
+    "lint:turbo": "turbo run lint",
     "lint:prettier": "pnpm run:prettier . --check",
     "fix": "pnpm /^fix:.*/",
+    "fix:turbo": "turbo run fix",
     "fix:prettier": "pnpm run:prettier . --write",
-    "run:prettier": "prettier --ignore-unknown --no-error-on-unmatched-pattern --cache",
+    "typecheck": "turbo run typecheck",
+    "build": "turbo run build",
     "generate:config": "direnv allow && tsx ./scripts/generate-config.js",
-    "generate:env": "op inject -i .env.secret.template -o .env.secret"
+    "generate:env": "op inject -i .env.secret.template -o .env.secret",
+    "run:prettier": "prettier --ignore-unknown --no-error-on-unmatched-pattern --cache"
   },
   "devDependencies": {
     "@types/node": "^22.10.2",
     "prettier": "^3.4.2",
     "tsx": "^4.19.2",
+    "turbo": "^2.3.3",
     "valibot": "1.0.0-beta.9"
   },
   "packageManager": "pnpm@9.15.1+sha512.1acb565e6193efbebda772702950469150cf12bcc764262e7587e71d19dc98a423dff9536e57ea44c49bdf790ff694e83c27be5faa23d67e0c033b583be4bfcf"
