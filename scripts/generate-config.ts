@@ -13,6 +13,7 @@ const envSchemas = {
   MCP_ESA_API_KEY: v.string(),
   MCP_NODE_PATH: v.optional(v.string(), "node"),
   MCP_NPX_PATH: v.optional(v.string(), "npx"),
+  MCP_UVX_PATH: v.optional(v.string(), "uvx"),
   /**
    * @example ""
    * @example "~/Apps,~/Playground"
@@ -24,6 +25,9 @@ const envSchemas = {
    * @example "~/Apps,~/Playground"
    */
   MCP_DISABLE: v.optional(v.string(), ""),
+  MCP_GITHUB_TOKEN: v.string(),
+  MCP_SLACK_BOT_TOKEN: v.string(),
+  MCP_SLACK_TEAM_ID: v.string(),
 } as const
 
 type McpServer = {
@@ -92,6 +96,60 @@ const sequentialThinkingServer = defineMcpServer(
   })
 )
 
+const githubServer = defineMcpServer(
+  "github",
+  v.object({
+    MCP_NPX_PATH: envSchemas.MCP_NPX_PATH,
+    MCP_GITHUB_TOKEN: envSchemas.MCP_GITHUB_TOKEN,
+  }),
+  ({ env }) => ({
+    command: env.MCP_NPX_PATH,
+    args: ["-y", "@modelcontextprotocol/server-github"],
+    env: {
+      GITHUB_PERSONAL_ACCESS_TOKEN: env.MCP_GITHUB_TOKEN,
+    },
+  })
+)
+
+const fetchServer = defineMcpServer(
+  "fetch",
+  v.object({
+    MCP_UVX_PATH: envSchemas.MCP_UVX_PATH,
+  }),
+  ({ env }) => ({
+    command: env.MCP_UVX_PATH,
+    args: ["mcp-server-fetch"],
+  })
+)
+
+const slackServer = defineMcpServer(
+  "slack",
+  v.object({
+    MCP_NPX_PATH: envSchemas.MCP_NPX_PATH,
+    MCP_SLACK_BOT_TOKEN: envSchemas.MCP_SLACK_BOT_TOKEN,
+    MCP_SLACK_TEAM_ID: envSchemas.MCP_SLACK_TEAM_ID,
+  }),
+  ({ env }) => ({
+    command: env.MCP_NPX_PATH,
+    args: ["-y", "@modelcontextprotocol/server-slack"],
+    env: {
+      SLACK_BOT_TOKEN: env.MCP_SLACK_BOT_TOKEN,
+      SLACK_TEAM_ID: env.MCP_SLACK_TEAM_ID,
+    },
+  })
+)
+
+const puppeteerServer = defineMcpServer(
+  "puppeteer",
+  v.object({
+    MCP_NPX_PATH: envSchemas.MCP_NPX_PATH,
+  }),
+  ({ env }) => ({
+    command: env.MCP_NPX_PATH,
+    args: ["-y", "@modelcontextprotocol/server-puppeteer"],
+  })
+)
+
 const commandExecutorServer = defineMcpServer(
   "command-executor",
   v.object({
@@ -124,6 +182,10 @@ const mcpServers = [
   filesystemServer,
   braveSearchServer,
   sequentialThinkingServer,
+  githubServer,
+  fetchServer,
+  slackServer,
+  puppeteerServer,
   commandExecutorServer,
   esaServer,
 ] as const
@@ -183,6 +245,18 @@ await main()
     console.log("Done")
   })
   .catch((error) => {
-    console.error(error)
+    if (error instanceof v.ValiError) {
+      for (const issue of error.issues) {
+        console.error("ValidationError", {
+          keys: issue.path.map(({ key }) => key),
+          message: issue.message,
+          expected: issue.expected,
+          received: issue.received,
+        })
+      }
+    } else {
+      console.error(error)
+    }
+
     process.exit(1)
   })
