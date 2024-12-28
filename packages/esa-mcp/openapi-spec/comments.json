@@ -4,14 +4,14 @@
       "get": {
         "tags": ["Comment"],
         "summary": "List comments on a post",
-        "security": [{"bearerAuth": []}],
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
-          {"$ref": "./openapi.json#/components/parameters/teamName"},
+          { "$ref": "./openapi.json#/components/parameters/teamName" },
           {
             "name": "post_number",
             "in": "path",
             "required": true,
-            "schema": {"type": "integer"}
+            "schema": { "type": "integer" }
           }
         ],
         "responses": {
@@ -24,10 +24,14 @@
                   "properties": {
                     "comments": {
                       "type": "array",
-                      "items": {"$ref": "./openapi.json#/components/schemas/Comment"}
+                      "items": {
+                        "$ref": "./openapi.json#/components/schemas/Comment"
+                      }
                     }
                   },
-                  "allOf": [{"$ref": "./openapi.json#/components/schemas/Pagination"}]
+                  "allOf": [
+                    { "$ref": "./openapi.json#/components/schemas/Pagination" }
+                  ]
                 }
               }
             }
@@ -62,14 +66,14 @@
       "post": {
         "tags": ["Comment"],
         "summary": "Create a comment",
-        "security": [{"bearerAuth": []}],
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
-          {"$ref": "./openapi.json#/components/parameters/teamName"},
+          { "$ref": "./openapi.json#/components/parameters/teamName" },
           {
             "name": "post_number",
             "in": "path",
             "required": true,
-            "schema": {"type": "integer"}
+            "schema": { "type": "integer" }
           }
         ],
         "requestBody": {
@@ -83,8 +87,8 @@
                     "type": "object",
                     "required": ["body_md"],
                     "properties": {
-                      "body_md": {"type": "string"},
-                      "user": {"type": "string"}
+                      "body_md": { "type": "string" },
+                      "user": { "type": "string" }
                     }
                   }
                 }
@@ -97,7 +101,9 @@
             "description": "Created comment",
             "content": {
               "application/json": {
-                "schema": {"$ref": "./openapi.json#/components/schemas/Comment"}
+                "schema": {
+                  "$ref": "./openapi.json#/components/schemas/Comment"
+                }
               }
             }
           },
@@ -132,18 +138,18 @@
     "/v1/teams/{team_name}/comments/{comment_id}": {
       "tags": ["Comment"],
       "parameters": [
-        {"$ref": "./openapi.json#/components/parameters/teamName"},
+        { "$ref": "./openapi.json#/components/parameters/teamName" },
         {
           "name": "comment_id",
           "in": "path",
           "required": true,
-          "schema": {"type": "integer"}
+          "schema": { "type": "integer" }
         }
       ],
       "get": {
         "tags": ["Comment"],
         "summary": "Get a comment",
-        "security": [{"bearerAuth": []}],
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "include",
@@ -159,7 +165,9 @@
             "description": "Comment details",
             "content": {
               "application/json": {
-                "schema": {"$ref": "./openapi.json#/components/schemas/Comment"}
+                "schema": {
+                  "$ref": "./openapi.json#/components/schemas/Comment"
+                }
               }
             }
           },
@@ -193,7 +201,7 @@
       "patch": {
         "tags": ["Comment"],
         "summary": "Update a comment",
-        "security": [{"bearerAuth": []}],
+        "security": [{ "bearerAuth": [] }],
         "requestBody": {
           "required": true,
           "content": {
@@ -204,8 +212,8 @@
                   "comment": {
                     "type": "object",
                     "properties": {
-                      "body_md": {"type": "string"},
-                      "user": {"type": "string"}
+                      "body_md": { "type": "string" },
+                      "user": { "type": "string" }
                     }
                   }
                 }
@@ -218,7 +226,9 @@
             "description": "Updated comment",
             "content": {
               "application/json": {
-                "schema": {"$ref": "./openapi.json#/components/schemas/Comment"}
+                "schema": {
+                  "$ref": "./openapi.json#/components/schemas/Comment"
+                }
               }
             }
           },
@@ -252,9 +262,9 @@
       "delete": {
         "tags": ["Comment"],
         "summary": "Delete a comment",
-        "security": [{"bearerAuth": []}],
+        "security": [{ "bearerAuth": [] }],
         "responses": {
-          "204": {"description": "Comment deleted"},
+          "204": { "description": "Comment deleted" },
           "400": {
             "content": {
               "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
@@ -287,8 +297,10 @@
       "get": {
         "tags": ["Comment"],
         "summary": "List all team comments",
-        "security": [{"bearerAuth": []}],
-        "parameters": [{"$ref": "./openapi.json#/components/parameters/teamName"}],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          { "$ref": "./openapi.json#/components/parameters/teamName" }
+        ],
         "responses": {
           "200": {
             "description": "List of all comments",
@@ -299,10 +311,14 @@
                   "properties": {
                     "comments": {
                       "type": "array",
-                      "items": {"$ref": "./openapi.json#/components/schemas/Comment"}
+                      "items": {
+                        "$ref": "./openapi.json#/components/schemas/Comment"
+                      }
                     }
                   },
-                  "allOf": [{"$ref": "./openapi.json#/components/schemas/Pagination"}]
+                  "allOf": [
+                    { "$ref": "./openapi.json#/components/schemas/Pagination" }
+                  ]
                 }
               }
             }

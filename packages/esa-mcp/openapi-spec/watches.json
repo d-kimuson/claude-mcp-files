@@ -4,14 +4,14 @@
       "get": {
         "tags": ["Watch"],
         "summary": "List post watchers",
-        "security": [{"bearerAuth": []}],
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
-          {"$ref": "./openapi.json#/components/parameters/teamName"},
+          { "$ref": "./openapi.json#/components/parameters/teamName" },
           {
             "name": "post_number",
             "in": "path",
             "required": true,
-            "schema": {"type": "integer"}
+            "schema": { "type": "integer" }
           }
         ],
         "responses": {
@@ -31,12 +31,16 @@
                             "type": "string",
                             "format": "date-time"
                           },
-                          "user": {"$ref": "./openapi.json#/components/schemas/User"}
+                          "user": {
+                            "$ref": "./openapi.json#/components/schemas/User"
+                          }
                         }
                       }
                     }
                   },
-                  "allOf": [{"$ref": "./openapi.json#/components/schemas/Pagination"}]
+                  "allOf": [
+                    { "$ref": "./openapi.json#/components/schemas/Pagination" }
+                  ]
                 }
               }
             }
@@ -73,18 +77,18 @@
       "post": {
         "tags": ["Watch"],
         "summary": "Watch a post",
-        "security": [{"bearerAuth": []}],
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
-          {"$ref": "./openapi.json#/components/parameters/teamName"},
+          { "$ref": "./openapi.json#/components/parameters/teamName" },
           {
             "name": "post_number",
             "in": "path",
             "required": true,
-            "schema": {"type": "integer"}
+            "schema": { "type": "integer" }
           }
         ],
         "responses": {
-          "204": {"description": "Post watched"},
+          "204": { "description": "Post watched" },
           "400": {
             "content": {
               "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
@@ -115,18 +119,18 @@
       "delete": {
         "tags": ["Watch"],
         "summary": "Unwatch a post",
-        "security": [{"bearerAuth": []}],
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
-          {"$ref": "./openapi.json#/components/parameters/teamName"},
+          { "$ref": "./openapi.json#/components/parameters/teamName" },
           {
             "name": "post_number",
             "in": "path",
             "required": true,
-            "schema": {"type": "integer"}
+            "schema": { "type": "integer" }
           }
         ],
         "responses": {
-          "204": {"description": "Watch removed"},
+          "204": { "description": "Watch removed" },
           "400": {
             "content": {
               "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"

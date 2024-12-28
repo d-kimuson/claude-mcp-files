@@ -4,9 +4,9 @@
       "get": {
         "tags": ["Member"],
         "summary": "List team members",
-        "security": [{"bearerAuth": []}],
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
-          {"$ref": "#/components/parameters/teamName"},
+          { "$ref": "#/components/parameters/teamName" },
           {
             "name": "sort",
             "in": "query",
@@ -36,10 +36,10 @@
                   "properties": {
                     "members": {
                       "type": "array",
-                      "items": {"$ref": "#/components/schemas/Member"}
+                      "items": { "$ref": "#/components/schemas/Member" }
                     }
                   },
-                  "allOf": [{"$ref": "#/components/schemas/Pagination"}]
+                  "allOf": [{ "$ref": "#/components/schemas/Pagination" }]
                 }
               }
             }
@@ -76,14 +76,14 @@
       "get": {
         "tags": ["Member"],
         "summary": "Get a team member",
-        "security": [{"bearerAuth": []}],
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
-          {"$ref": "#/components/parameters/teamName"},
+          { "$ref": "#/components/parameters/teamName" },
           {
             "name": "screen_name_or_email",
             "in": "path",
             "required": true,
-            "schema": {"type": "string"},
+            "schema": { "type": "string" },
             "description": "Screen name or email of the member, or 'me' for the authenticated user"
           }
         ],
@@ -92,7 +92,7 @@
             "description": "Member details",
             "content": {
               "application/json": {
-                "schema": {"$ref": "#/components/schemas/Member"}
+                "schema": { "$ref": "#/components/schemas/Member" }
               }
             }
           },
@@ -126,18 +126,18 @@
       "delete": {
         "tags": ["Member"],
         "summary": "Remove a team member",
-        "security": [{"bearerAuth": []}],
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
-          {"$ref": "#/components/parameters/teamName"},
+          { "$ref": "#/components/parameters/teamName" },
           {
             "name": "screen_name_or_email",
             "in": "path",
             "required": true,
-            "schema": {"type": "string"}
+            "schema": { "type": "string" }
           }
         ],
         "responses": {
-          "204": {"description": "Member removed"},
+          "204": { "description": "Member removed" },
           "400": {
             "content": {
               "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"

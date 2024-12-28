@@ -11,13 +11,13 @@
       "description": "Production server"
     }
   ],
-  "security": [{"bearerAuth": []}],
+  "security": [{ "bearerAuth": [] }],
   "paths": {
     "/oauth/token": {
       "$ref": "./oauth.json#/paths/~1oauth~1token"
     },
     "/oauth/token/info": {
-      "$ref": "./oauth.json#/paths/~1oauth~1token~1info"  
+      "$ref": "./oauth.json#/paths/~1oauth~1token~1info"
     },
     "/oauth/revoke": {
       "$ref": "./oauth.json#/paths/~1oauth~1revoke"
@@ -104,7 +104,7 @@
         "name": "team_name",
         "in": "path",
         "required": true,
-        "schema": {"type": "string"},
+        "schema": { "type": "string" },
         "description": "Team name (subdomain)"
       }
     },
@@ -112,29 +112,29 @@
       "Pagination": {
         "type": "object",
         "properties": {
-          "prev_page": {"type": "integer", "nullable": true},
-          "next_page": {"type": "integer", "nullable": true},
-          "total_count": {"type": "integer"},
-          "page": {"type": "integer"},
-          "per_page": {"type": "integer"},
-          "max_per_page": {"type": "integer"}
+          "prev_page": { "type": "integer", "nullable": true },
+          "next_page": { "type": "integer", "nullable": true },
+          "total_count": { "type": "integer" },
+          "page": { "type": "integer" },
+          "per_page": { "type": "integer" },
+          "max_per_page": { "type": "integer" }
         }
       },
       "Team": {
         "type": "object",
         "properties": {
-          "name": {"type": "string"},
+          "name": { "type": "string" },
           "privacy": {
             "type": "string",
             "enum": ["closed", "open"]
           },
-          "description": {"type": "string"},
+          "description": { "type": "string" },
           "icon": {
             "type": "string",
             "format": "uri"
           },
           "url": {
-            "type": "string", 
+            "type": "string",
             "format": "uri"
           }
         }
@@ -142,9 +142,9 @@
       "Member": {
         "type": "object",
         "properties": {
-          "myself": {"type": "boolean"},
-          "name": {"type": "string"},
-          "screen_name": {"type": "string"},
+          "myself": { "type": "boolean" },
+          "name": { "type": "string" },
+          "screen_name": { "type": "string" },
           "icon": {
             "type": "string",
             "format": "uri"
@@ -153,7 +153,7 @@
             "type": "string",
             "format": "email"
           },
-          "posts_count": {"type": "integer"},
+          "posts_count": { "type": "integer" },
           "role": {
             "type": "string",
             "enum": ["owner", "member"]
@@ -171,17 +171,17 @@
       "Post": {
         "type": "object",
         "properties": {
-          "number": {"type": "integer"},
-          "name": {"type": "string"},
-          "full_name": {"type": "string"},
-          "wip": {"type": "boolean"},
-          "body_md": {"type": "string"},
-          "body_html": {"type": "string"},
+          "number": { "type": "integer" },
+          "name": { "type": "string" },
+          "full_name": { "type": "string" },
+          "wip": { "type": "boolean" },
+          "body_md": { "type": "string" },
+          "body_html": { "type": "string" },
           "created_at": {
             "type": "string",
             "format": "date-time"
           },
-          "message": {"type": "string"},
+          "message": { "type": "string" },
           "url": {
             "type": "string",
             "format": "uri"
@@ -192,31 +192,31 @@
           },
           "tags": {
             "type": "array",
-            "items": {"type": "string"}
+            "items": { "type": "string" }
           },
-          "category": {"type": "string", "nullable": true},
-          "revision_number": {"type": "integer"},
-          "created_by": {"$ref": "#/components/schemas/User"},
-          "updated_by": {"$ref": "#/components/schemas/User"},
+          "category": { "type": "string", "nullable": true },
+          "revision_number": { "type": "integer" },
+          "created_by": { "$ref": "#/components/schemas/User" },
+          "updated_by": { "$ref": "#/components/schemas/User" },
           "kind": {
             "type": "string",
             "enum": ["stock", "flow"]
           },
-          "comments_count": {"type": "integer"},
-          "tasks_count": {"type": "integer"},
-          "done_tasks_count": {"type": "integer"},
-          "stargazers_count": {"type": "integer"},
-          "watchers_count": {"type": "integer"},
-          "star": {"type": "boolean"},
-          "watch": {"type": "boolean"}
+          "comments_count": { "type": "integer" },
+          "tasks_count": { "type": "integer" },
+          "done_tasks_count": { "type": "integer" },
+          "stargazers_count": { "type": "integer" },
+          "watchers_count": { "type": "integer" },
+          "star": { "type": "boolean" },
+          "watch": { "type": "boolean" }
         }
       },
       "Comment": {
         "type": "object",
         "properties": {
-          "id": {"type": "integer"},
-          "body_md": {"type": "string"},
-          "body_html": {"type": "string"},
+          "id": { "type": "integer" },
+          "body_md": { "type": "string" },
+          "body_html": { "type": "string" },
           "created_at": {
             "type": "string",
             "format": "date-time"
@@ -229,17 +229,17 @@
             "type": "string",
             "format": "uri"
           },
-          "created_by": {"$ref": "#/components/schemas/User"},
-          "stargazers_count": {"type": "integer"},
-          "star": {"type": "boolean"}
+          "created_by": { "$ref": "#/components/schemas/User" },
+          "stargazers_count": { "type": "integer" },
+          "star": { "type": "boolean" }
         }
       },
       "User": {
         "type": "object",
         "properties": {
-          "myself": {"type": "boolean"},
-          "name": {"type": "string"},
-          "screen_name": {"type": "string"},
+          "myself": { "type": "boolean" },
+          "name": { "type": "string" },
+          "screen_name": { "type": "string" },
           "icon": {
             "type": "string",
             "format": "uri"
@@ -249,8 +249,8 @@
       "ErrorResponseBody": {
         "type": "object",
         "properties": {
-          "message": {"type": "string"},
-          "error": {"type": "string"}
+          "message": { "type": "string" },
+          "error": { "type": "string" }
         },
         "required": ["message", "error"]
       }

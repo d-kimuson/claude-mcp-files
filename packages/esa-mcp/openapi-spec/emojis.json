@@ -4,9 +4,9 @@
       "get": {
         "tags": ["Emoji"],
         "summary": "List emojis",
-        "security": [{"bearerAuth": []}],
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
-          {"$ref": "./openapi.json#/components/parameters/teamName"},
+          { "$ref": "./openapi.json#/components/parameters/teamName" },
           {
             "name": "include",
             "in": "query",
@@ -30,13 +30,13 @@
                       "items": {
                         "type": "object",
                         "properties": {
-                          "code": {"type": "string"},
+                          "code": { "type": "string" },
                           "aliases": {
                             "type": "array",
-                            "items": {"type": "string"}
+                            "items": { "type": "string" }
                           },
-                          "category": {"type": "string"},
-                          "raw": {"type": ["string", "null"]},
+                          "category": { "type": "string" },
+                          "raw": { "type": ["string", "null"] },
                           "url": {
                             "type": "string",
                             "format": "uri"
@@ -79,9 +79,9 @@
       "post": {
         "tags": ["Emoji"],
         "summary": "Create a new emoji",
-        "security": [{"bearerAuth": []}],
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
-          {"$ref": "./openapi.json#/components/parameters/teamName"}
+          { "$ref": "./openapi.json#/components/parameters/teamName" }
         ],
         "requestBody": {
           "required": true,
@@ -95,9 +95,9 @@
                     "type": "object",
                     "required": ["code"],
                     "properties": {
-                      "code": {"type": "string"},
-                      "origin_code": {"type": "string"},
-                      "image": {"type": "string"}
+                      "code": { "type": "string" },
+                      "origin_code": { "type": "string" },
+                      "image": { "type": "string" }
                     }
                   }
                 }
@@ -107,7 +107,7 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "emoji[code]": {"type": "string"},
+                  "emoji[code]": { "type": "string" },
                   "emoji[image]": {
                     "type": "string",
                     "format": "binary"
@@ -125,7 +125,7 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "code": {"type": "string"}
+                    "code": { "type": "string" }
                   }
                 }
               }
@@ -163,18 +163,18 @@
       "delete": {
         "tags": ["Emoji"],
         "summary": "Delete an emoji",
-        "security": [{"bearerAuth": []}],
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
-          {"$ref": "./openapi.json#/components/parameters/teamName"},
+          { "$ref": "./openapi.json#/components/parameters/teamName" },
           {
             "name": "code",
             "in": "path",
             "required": true,
-            "schema": {"type": "string"}
+            "schema": { "type": "string" }
           }
         ],
         "responses": {
-          "204": {"description": "Emoji deleted"},
+          "204": { "description": "Emoji deleted" },
           "400": {
             "content": {
               "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"

@@ -4,15 +4,17 @@
       "get": {
         "tags": ["Team"],
         "summary": "List teams",
-        "security": [{"bearerAuth": []}],
-        "parameters": [{
-          "name": "role",
-          "in": "query",
-          "schema": {
-            "type": "string",
-            "enum": ["member", "owner"]
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "role",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": ["member", "owner"]
+            }
           }
-        }],
+        ],
         "responses": {
           "200": {
             "description": "List of teams",
@@ -23,10 +25,14 @@
                   "properties": {
                     "teams": {
                       "type": "array",
-                      "items": {"$ref": "./openapi.json#/components/schemas/Team"}
+                      "items": {
+                        "$ref": "./openapi.json#/components/schemas/Team"
+                      }
                     }
                   },
-                  "allOf": [{"$ref": "./openapi.json#/components/schemas/Pagination"}]
+                  "allOf": [
+                    { "$ref": "./openapi.json#/components/schemas/Pagination" }
+                  ]
                 }
               }
             }
@@ -63,14 +69,16 @@
       "get": {
         "tags": ["Team"],
         "summary": "Get a team",
-        "security": [{"bearerAuth": []}],
-        "parameters": [{"$ref": "./openapi.json#/components/parameters/teamName"}],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          { "$ref": "./openapi.json#/components/parameters/teamName" }
+        ],
         "responses": {
           "200": {
             "description": "Team details",
             "content": {
               "application/json": {
-                "schema": {"$ref": "./openapi.json#/components/schemas/Team"}
+                "schema": { "$ref": "./openapi.json#/components/schemas/Team" }
               }
             }
           },
@@ -106,8 +114,10 @@
       "get": {
         "tags": ["Team"],
         "summary": "Get team statistics",
-        "security": [{"bearerAuth": []}],
-        "parameters": [{"$ref": "./openapi.json#/components/parameters/teamName"}],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          { "$ref": "./openapi.json#/components/parameters/teamName" }
+        ],
         "responses": {
           "200": {
             "description": "Team statistics",
@@ -116,15 +126,15 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "members": {"type": "integer"},
-                    "posts": {"type": "integer"},
-                    "posts_wip": {"type": "integer"},
-                    "posts_shipped": {"type": "integer"},
-                    "comments": {"type": "integer"},
-                    "stars": {"type": "integer"},
-                    "daily_active_users": {"type": "integer"},
-                    "weekly_active_users": {"type": "integer"},
-                    "monthly_active_users": {"type": "integer"}
+                    "members": { "type": "integer" },
+                    "posts": { "type": "integer" },
+                    "posts_wip": { "type": "integer" },
+                    "posts_shipped": { "type": "integer" },
+                    "comments": { "type": "integer" },
+                    "stars": { "type": "integer" },
+                    "daily_active_users": { "type": "integer" },
+                    "weekly_active_users": { "type": "integer" },
+                    "monthly_active_users": { "type": "integer" }
                   }
                 }
               }

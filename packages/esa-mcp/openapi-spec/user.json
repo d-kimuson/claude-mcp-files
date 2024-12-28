@@ -4,7 +4,7 @@
       "get": {
         "tags": ["User"],
         "summary": "Get authenticated user",
-        "security": [{"bearerAuth": []}],
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "include",
@@ -23,15 +23,15 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "id": {"type": "integer"},
-                    "name": {"type": "string"},
-                    "screen_name": {"type": "string"},
+                    "id": { "type": "integer" },
+                    "name": { "type": "string" },
+                    "screen_name": { "type": "string" },
                     "created_at": {
                       "type": "string",
                       "format": "date-time"
                     },
                     "updated_at": {
-                      "type": "string", 
+                      "type": "string",
                       "format": "date-time"
                     },
                     "icon": {

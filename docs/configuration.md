@@ -4,18 +4,18 @@
 
 ```typescript
 interface Config {
-  version: string;
+  version: string
   mcps: {
     [key: string]: {
-      path: string;
-      enabled: boolean;
-    };
-  };
+      path: string
+      enabled: boolean
+    }
+  }
   settings: {
-    defaultTimeout: number;
-    maxConcurrentExecutions: number;
-    logLevel: string;
-  };
+    defaultTimeout: number
+    maxConcurrentExecutions: number
+    logLevel: string
+  }
 }
 ```
 

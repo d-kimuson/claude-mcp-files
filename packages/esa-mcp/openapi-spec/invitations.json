@@ -4,9 +4,9 @@
       "get": {
         "tags": ["Invitation"],
         "summary": "Get team invitation URL",
-        "security": [{"bearerAuth": []}],
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
-          {"$ref": "./openapi.json#/components/parameters/teamName"}
+          { "$ref": "./openapi.json#/components/parameters/teamName" }
         ],
         "responses": {
           "200": {
@@ -57,9 +57,9 @@
       "post": {
         "tags": ["Invitation"],
         "summary": "Regenerate team invitation URL",
-        "security": [{"bearerAuth": []}],
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
-          {"$ref": "./openapi.json#/components/parameters/teamName"}
+          { "$ref": "./openapi.json#/components/parameters/teamName" }
         ],
         "responses": {
           "200": {
@@ -110,9 +110,9 @@
       "get": {
         "tags": ["Invitation"],
         "summary": "List pending invitations",
-        "security": [{"bearerAuth": []}],
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
-          {"$ref": "./openapi.json#/components/parameters/teamName"}
+          { "$ref": "./openapi.json#/components/parameters/teamName" }
         ],
         "responses": {
           "200": {
@@ -146,7 +146,9 @@
                       }
                     }
                   },
-                  "allOf": [{"$ref": "./openapi.json#/components/schemas/Pagination"}]
+                  "allOf": [
+                    { "$ref": "./openapi.json#/components/schemas/Pagination" }
+                  ]
                 }
               }
             }
@@ -181,9 +183,9 @@
       "post": {
         "tags": ["Invitation"],
         "summary": "Send email invitations",
-        "security": [{"bearerAuth": []}],
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
-          {"$ref": "./openapi.json#/components/parameters/teamName"}
+          { "$ref": "./openapi.json#/components/parameters/teamName" }
         ],
         "requestBody": {
           "required": true,
@@ -280,18 +282,18 @@
       "delete": {
         "tags": ["Invitation"],
         "summary": "Delete an invitation",
-        "security": [{"bearerAuth": []}],
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
-          {"$ref": "./openapi.json#/components/parameters/teamName"},
+          { "$ref": "./openapi.json#/components/parameters/teamName" },
           {
             "name": "code",
             "in": "path",
             "required": true,
-            "schema": {"type": "string"}
+            "schema": { "type": "string" }
           }
         ],
         "responses": {
-          "204": {"description": "Invitation deleted"},
+          "204": { "description": "Invitation deleted" },
           "400": {
             "content": {
               "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"

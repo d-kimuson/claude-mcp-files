@@ -4,9 +4,9 @@
       "get": {
         "tags": ["Tag"],
         "summary": "List tags",
-        "security": [{"bearerAuth": []}],
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
-          {"$ref": "./openapi.json#/components/parameters/teamName"}
+          { "$ref": "./openapi.json#/components/parameters/teamName" }
         ],
         "responses": {
           "200": {
@@ -21,13 +21,15 @@
                       "items": {
                         "type": "object",
                         "properties": {
-                          "name": {"type": "string"},
-                          "posts_count": {"type": "integer"}
+                          "name": { "type": "string" },
+                          "posts_count": { "type": "integer" }
                         }
                       }
                     }
                   },
-                  "allOf": [{"$ref": "./openapi.json#/components/schemas/Pagination"}]
+                  "allOf": [
+                    { "$ref": "./openapi.json#/components/schemas/Pagination" }
+                  ]
                 }
               }
             }

@@ -4,9 +4,9 @@
       "post": {
         "tags": ["Category"],
         "summary": "Batch move categories",
-        "security": [{"bearerAuth": []}],
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
-          {"$ref": "./openapi.json#/components/parameters/teamName"}
+          { "$ref": "./openapi.json#/components/parameters/teamName" }
         ],
         "requestBody": {
           "required": true,

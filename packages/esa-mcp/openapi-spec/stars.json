@@ -4,14 +4,14 @@
       "get": {
         "tags": ["Star"],
         "summary": "List post stargazers",
-        "security": [{"bearerAuth": []}],
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
-          {"$ref": "./openapi.json#/components/parameters/teamName"},
+          { "$ref": "./openapi.json#/components/parameters/teamName" },
           {
             "name": "post_number",
             "in": "path",
             "required": true,
-            "schema": {"type": "integer"}
+            "schema": { "type": "integer" }
           }
         ],
         "responses": {
@@ -34,12 +34,16 @@
                           "body": {
                             "type": ["string", "null"]
                           },
-                          "user": {"$ref": "./openapi.json#/components/schemas/User"}
+                          "user": {
+                            "$ref": "./openapi.json#/components/schemas/User"
+                          }
                         }
                       }
                     }
                   },
-                  "allOf": [{"$ref": "./openapi.json#/components/schemas/Pagination"}]
+                  "allOf": [
+                    { "$ref": "./openapi.json#/components/schemas/Pagination" }
+                  ]
                 }
               }
             }
@@ -76,14 +80,14 @@
       "post": {
         "tags": ["Star"],
         "summary": "Star a post",
-        "security": [{"bearerAuth": []}],
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
-          {"$ref": "./openapi.json#/components/parameters/teamName"},
+          { "$ref": "./openapi.json#/components/parameters/teamName" },
           {
             "name": "post_number",
             "in": "path",
             "required": true,
-            "schema": {"type": "integer"}
+            "schema": { "type": "integer" }
           }
         ],
         "requestBody": {
@@ -92,14 +96,14 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "body": {"type": "string"}
+                  "body": { "type": "string" }
                 }
               }
             }
           }
         },
         "responses": {
-          "204": {"description": "Post starred"},
+          "204": { "description": "Post starred" },
           "400": {
             "content": {
               "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
@@ -130,18 +134,18 @@
       "delete": {
         "tags": ["Star"],
         "summary": "Unstar a post",
-        "security": [{"bearerAuth": []}],
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
-          {"$ref": "./openapi.json#/components/parameters/teamName"},
+          { "$ref": "./openapi.json#/components/parameters/teamName" },
           {
             "name": "post_number",
             "in": "path",
             "required": true,
-            "schema": {"type": "integer"}
+            "schema": { "type": "integer" }
           }
         ],
         "responses": {
-          "204": {"description": "Star removed"},
+          "204": { "description": "Star removed" },
           "400": {
             "content": {
               "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
@@ -174,14 +178,14 @@
       "get": {
         "tags": ["Star"],
         "summary": "List comment stargazers",
-        "security": [{"bearerAuth": []}],
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
-          {"$ref": "./openapi.json#/components/parameters/teamName"},
+          { "$ref": "./openapi.json#/components/parameters/teamName" },
           {
             "name": "comment_id",
             "in": "path",
             "required": true,
-            "schema": {"type": "integer"}
+            "schema": { "type": "integer" }
           }
         ],
         "responses": {
@@ -204,12 +208,16 @@
                           "body": {
                             "type": ["string", "null"]
                           },
-                          "user": {"$ref": "./openapi.json#/components/schemas/User"}
+                          "user": {
+                            "$ref": "./openapi.json#/components/schemas/User"
+                          }
                         }
                       }
                     }
                   },
-                  "allOf": [{"$ref": "./openapi.json#/components/schemas/Pagination"}]
+                  "allOf": [
+                    { "$ref": "./openapi.json#/components/schemas/Pagination" }
+                  ]
                 }
               }
             }
@@ -246,14 +254,14 @@
       "post": {
         "tags": ["Star"],
         "summary": "Star a comment",
-        "security": [{"bearerAuth": []}],
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
-          {"$ref": "./openapi.json#/components/parameters/teamName"},
+          { "$ref": "./openapi.json#/components/parameters/teamName" },
           {
             "name": "comment_id",
             "in": "path",
             "required": true,
-            "schema": {"type": "integer"}
+            "schema": { "type": "integer" }
           }
         ],
         "requestBody": {
@@ -262,14 +270,14 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "body": {"type": "string"}
+                  "body": { "type": "string" }
                 }
               }
             }
           }
         },
         "responses": {
-          "204": {"description": "Comment starred"},
+          "204": { "description": "Comment starred" },
           "400": {
             "content": {
               "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"
@@ -300,18 +308,18 @@
       "delete": {
         "tags": ["Star"],
         "summary": "Unstar a comment",
-        "security": [{"bearerAuth": []}],
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
-          {"$ref": "./openapi.json#/components/parameters/teamName"},
+          { "$ref": "./openapi.json#/components/parameters/teamName" },
           {
             "name": "comment_id",
             "in": "path",
             "required": true,
-            "schema": {"type": "integer"}
+            "schema": { "type": "integer" }
           }
         ],
         "responses": {
-          "204": {"description": "Star removed"},
+          "204": { "description": "Star removed" },
           "400": {
             "content": {
               "$ref": "./openapi.json#/components/schemas/ErrorResponseBody"

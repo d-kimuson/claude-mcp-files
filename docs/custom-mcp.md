@@ -4,10 +4,10 @@
 
 ```typescript
 interface MCP {
-  name: string;
-  description: string;
-  execute: (params: any) => Promise<any>;
-  validate?: (params: any) => boolean;
+  name: string
+  description: string
+  execute: (params: any) => Promise<any>
+  validate?: (params: any) => boolean
 }
 ```
 
