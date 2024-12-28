@@ -1,0 +1,188 @@
+{
+  "paths": {
+    "/v1/teams/{team_name}/posts/{post_number}/stargazers": {
+      "get": {
+        "summary": "List post stargazers",
+        "security": [{"bearerAuth": []}],
+        "parameters": [
+          {"$ref": "./openapi.json#/components/parameters/teamName"},
+          {
+            "name": "post_number",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "integer"}
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of stargazers",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "stargazers": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "created_at": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "body": {
+                            "type": ["string", "null"]
+                          },
+                          "user": {"$ref": "./openapi.json#/components/schemas/User"}
+                        }
+                      }
+                    }
+                  },
+                  "allOf": [{"$ref": "./openapi.json#/components/schemas/Pagination"}]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/teams/{team_name}/posts/{post_number}/star": {
+      "post": {
+        "summary": "Star a post",
+        "security": [{"bearerAuth": []}],
+        "parameters": [
+          {"$ref": "./openapi.json#/components/parameters/teamName"},
+          {
+            "name": "post_number",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "integer"}
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "body": {"type": "string"}
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {"description": "Post starred"}
+        }
+      },
+      "delete": {
+        "summary": "Unstar a post",
+        "security": [{"bearerAuth": []}],
+        "parameters": [
+          {"$ref": "./openapi.json#/components/parameters/teamName"},
+          {
+            "name": "post_number",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "integer"}
+          }
+        ],
+        "responses": {
+          "204": {"description": "Star removed"}
+        }
+      }
+    },
+    "/v1/teams/{team_name}/comments/{comment_id}/stargazers": {
+      "get": {
+        "summary": "List comment stargazers",
+        "security": [{"bearerAuth": []}],
+        "parameters": [
+          {"$ref": "./openapi.json#/components/parameters/teamName"},
+          {
+            "name": "comment_id",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "integer"}
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of stargazers",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "stargazers": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "created_at": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "body": {
+                            "type": ["string", "null"]
+                          },
+                          "user": {"$ref": "./openapi.json#/components/schemas/User"}
+                        }
+                      }
+                    }
+                  },
+                  "allOf": [{"$ref": "./openapi.json#/components/schemas/Pagination"}]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/teams/{team_name}/comments/{comment_id}/star": {
+      "post": {
+        "summary": "Star a comment",
+        "security": [{"bearerAuth": []}],
+        "parameters": [
+          {"$ref": "./openapi.json#/components/parameters/teamName"},
+          {
+            "name": "comment_id",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "integer"}
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "body": {"type": "string"}
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {"description": "Comment starred"}
+        }
+      },
+      "delete": {
+        "summary": "Unstar a comment",
+        "security": [{"bearerAuth": []}],
+        "parameters": [
+          {"$ref": "./openapi.json#/components/parameters/teamName"},
+          {
+            "name": "comment_id",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "integer"}
+          }
+        ],
+        "responses": {
+          "204": {"description": "Star removed"}
+        }
+      }
+    }
+  }
+}

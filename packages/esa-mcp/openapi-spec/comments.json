@@ -1,0 +1,174 @@
+{
+  "paths": {
+    "/v1/teams/{team_name}/posts/{post_number}/comments": {
+      "get": {
+        "summary": "List comments on a post",
+        "security": [{"bearerAuth": []}],
+        "parameters": [
+          {"$ref": "./openapi.json#/components/parameters/teamName"},
+          {
+            "name": "post_number",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "integer"}
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of comments",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "comments": {
+                      "type": "array",
+                      "items": {"$ref": "./openapi.json#/components/schemas/Comment"}
+                    }
+                  },
+                  "allOf": [{"$ref": "./openapi.json#/components/schemas/Pagination"}]
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a comment",
+        "security": [{"bearerAuth": []}],
+        "parameters": [{"$ref": "./openapi.json#/components/parameters/teamName"}],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "comment": {
+                    "type": "object",
+                    "required": ["body_md"],
+                    "properties": {
+                      "body_md": {"type": "string"},
+                      "user": {"type": "string"}
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created comment",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "./openapi.json#/components/schemas/Comment"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/teams/{team_name}/comments/{comment_id}": {
+      "parameters": [
+        {"$ref": "./openapi.json#/components/parameters/teamName"},
+        {
+          "name": "comment_id",
+          "in": "path",
+          "required": true,
+          "schema": {"type": "integer"}
+        }
+      ],
+      "get": {
+        "summary": "Get a comment",
+        "security": [{"bearerAuth": []}],
+        "parameters": [
+          {
+            "name": "include",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": ["stargazers"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Comment details",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "./openapi.json#/components/schemas/Comment"}
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update a comment",
+        "security": [{"bearerAuth": []}],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "comment": {
+                    "type": "object",
+                    "properties": {
+                      "body_md": {"type": "string"},
+                      "user": {"type": "string"}
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated comment",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "./openapi.json#/components/schemas/Comment"}
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a comment",
+        "security": [{"bearerAuth": []}],
+        "responses": {
+          "204": {"description": "Comment deleted"}
+        }
+      }
+    },
+    "/v1/teams/{team_name}/comments": {
+      "get": {
+        "summary": "List all team comments",
+        "security": [{"bearerAuth": []}],
+        "parameters": [{"$ref": "./openapi.json#/components/parameters/teamName"}],
+        "responses": {
+          "200": {
+            "description": "List of all comments",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "comments": {
+                      "type": "array",
+                      "items": {"$ref": "./openapi.json#/components/schemas/Comment"}
+                    }
+                  },
+                  "allOf": [{"$ref": "./openapi.json#/components/schemas/Pagination"}]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

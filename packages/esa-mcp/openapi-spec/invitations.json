@@ -1,0 +1,194 @@
+{
+  "paths": {
+    "/v1/teams/{team_name}/invitation": {
+      "get": {
+        "summary": "Get team invitation URL",
+        "security": [{"bearerAuth": []}],
+        "parameters": [
+          {"$ref": "./openapi.json#/components/parameters/teamName"}
+        ],
+        "responses": {
+          "200": {
+            "description": "Invitation URL",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "url": {
+                      "type": "string",
+                      "format": "uri"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/teams/{team_name}/invitation_regenerator": {
+      "post": {
+        "summary": "Regenerate team invitation URL",
+        "security": [{"bearerAuth": []}],
+        "parameters": [
+          {"$ref": "./openapi.json#/components/parameters/teamName"}
+        ],
+        "responses": {
+          "200": {
+            "description": "New invitation URL",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "url": {
+                      "type": "string",
+                      "format": "uri"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/teams/{team_name}/invitations": {
+      "get": {
+        "summary": "List pending invitations",
+        "security": [{"bearerAuth": []}],
+        "parameters": [
+          {"$ref": "./openapi.json#/components/parameters/teamName"}
+        ],
+        "responses": {
+          "200": {
+            "description": "List of pending invitations",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "invitations": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "email": {
+                            "type": "string",
+                            "format": "email"
+                          },
+                          "code": {
+                            "type": "string"
+                          },
+                          "expires_at": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "url": {
+                            "type": "string",
+                            "format": "uri"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "allOf": [{"$ref": "./openapi.json#/components/schemas/Pagination"}]
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Send email invitations",
+        "security": [{"bearerAuth": []}],
+        "parameters": [
+          {"$ref": "./openapi.json#/components/parameters/teamName"}
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["member"],
+                "properties": {
+                  "member": {
+                    "type": "object",
+                    "required": ["emails"],
+                    "properties": {
+                      "emails": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "format": "email"
+                        },
+                        "maxItems": 100
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created invitations",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "invitations": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "email": {
+                            "type": "string",
+                            "format": "email"
+                          },
+                          "code": {
+                            "type": "string"
+                          },
+                          "expires_at": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "url": {
+                            "type": "string",
+                            "format": "uri"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/teams/{team_name}/invitations/{code}": {
+      "delete": {
+        "summary": "Delete an invitation",
+        "security": [{"bearerAuth": []}],
+        "parameters": [
+          {"$ref": "./openapi.json#/components/parameters/teamName"},
+          {
+            "name": "code",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "string"}
+          }
+        ],
+        "responses": {
+          "204": {"description": "Invitation deleted"}
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,129 @@
+{
+  "paths": {
+    "/v1/teams/{team_name}/emojis": {
+      "get": {
+        "summary": "List emojis",
+        "security": [{"bearerAuth": []}],
+        "parameters": [
+          {"$ref": "./openapi.json#/components/parameters/teamName"},
+          {
+            "name": "include",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": ["all"],
+              "description": "Include all emojis, not just team-specific ones"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of emojis",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "emojis": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "code": {"type": "string"},
+                          "aliases": {
+                            "type": "array",
+                            "items": {"type": "string"}
+                          },
+                          "category": {"type": "string"},
+                          "raw": {"type": ["string", "null"]},
+                          "url": {
+                            "type": "string",
+                            "format": "uri"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new emoji",
+        "security": [{"bearerAuth": []}],
+        "parameters": [
+          {"$ref": "./openapi.json#/components/parameters/teamName"}
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["emoji"],
+                "properties": {
+                  "emoji": {
+                    "type": "object",
+                    "required": ["code"],
+                    "properties": {
+                      "code": {"type": "string"},
+                      "origin_code": {"type": "string"},
+                      "image": {"type": "string"}
+                    }
+                  }
+                }
+              }
+            },
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "emoji[code]": {"type": "string"},
+                  "emoji[image]": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Emoji created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {"type": "string"}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/teams/{team_name}/emojis/{code}": {
+      "delete": {
+        "summary": "Delete an emoji",
+        "security": [{"bearerAuth": []}],
+        "parameters": [
+          {"$ref": "./openapi.json#/components/parameters/teamName"},
+          {
+            "name": "code",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "string"}
+          }
+        ],
+        "responses": {
+          "204": {"description": "Emoji deleted"}
+        }
+      }
+    }
+  }
+}

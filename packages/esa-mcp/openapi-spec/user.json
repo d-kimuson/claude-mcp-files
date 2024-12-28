@@ -1,0 +1,53 @@
+{
+  "paths": {
+    "/v1/user": {
+      "get": {
+        "summary": "Get authenticated user",
+        "security": [{"bearerAuth": []}],
+        "parameters": [
+          {
+            "name": "include",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": ["teams"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User information",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {"type": "integer"},
+                    "name": {"type": "string"},
+                    "screen_name": {"type": "string"},
+                    "created_at": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "updated_at": {
+                      "type": "string", 
+                      "format": "date-time"
+                    },
+                    "icon": {
+                      "type": "string",
+                      "format": "uri"
+                    },
+                    "email": {
+                      "type": "string",
+                      "format": "email"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

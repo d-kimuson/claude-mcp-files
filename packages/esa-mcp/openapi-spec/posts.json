@@ -1,0 +1,213 @@
+{
+  "paths": {
+    "/v1/teams/{team_name}/posts": {
+      "get": {
+        "summary": "List posts",
+        "security": [{"bearerAuth": []}],
+        "parameters": [
+          {"$ref": "./openapi.json#/components/parameters/teamName"},
+          {
+            "name": "q",
+            "in": "query",
+            "schema": {"type": "string"},
+            "description": "Search query"
+          },
+          {
+            "name": "include",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": ["comments", "stargazers", "comments,stargazers", "comments,comments.stargazers"]
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": ["updated", "created", "number", "stars", "watches", "comments", "best_match"],
+              "default": "updated"
+            }
+          },
+          {
+            "name": "order",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": ["asc", "desc"],
+              "default": "desc"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of posts",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "posts": {
+                      "type": "array",
+                      "items": {"$ref": "./openapi.json#/components/schemas/Post"}
+                    }
+                  },
+                  "allOf": [{"$ref": "./openapi.json#/components/schemas/Pagination"}]
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a post",
+        "security": [{"bearerAuth": []}],
+        "parameters": [{"$ref": "./openapi.json#/components/parameters/teamName"}],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "post": {
+                    "type": "object",
+                    "required": ["name"],
+                    "properties": {
+                      "name": {"type": "string"},
+                      "body_md": {"type": "string"},
+                      "tags": {
+                        "type": "array",
+                        "items": {"type": "string"}
+                      },
+                      "category": {"type": "string"},
+                      "wip": {
+                        "type": "boolean",
+                        "default": true
+                      },
+                      "message": {"type": "string"},
+                      "user": {"type": "string"},
+                      "template_post_id": {"type": "integer"}
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created post",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "./openapi.json#/components/schemas/Post"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/teams/{team_name}/posts/{post_number}": {
+      "parameters": [
+        {"$ref": "./openapi.json#/components/parameters/teamName"},
+        {
+          "name": "post_number",
+          "in": "path",
+          "required": true,
+          "schema": {"type": "integer"}
+        }
+      ],
+      "get": {
+        "summary": "Get a post",
+        "security": [{"bearerAuth": []}],
+        "parameters": [
+          {
+            "name": "include",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": ["comments", "comments,comments.stargazers", "stargazers"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Post details",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "./openapi.json#/components/schemas/Post"}
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update a post",
+        "security": [{"bearerAuth": []}],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "post": {
+                    "type": "object",
+                    "properties": {
+                      "name": {"type": "string"},
+                      "body_md": {"type": "string"},
+                      "tags": {
+                        "type": "array",
+                        "items": {"type": "string"}
+                      },
+                      "category": {"type": "string"},
+                      "wip": {"type": "boolean"},
+                      "message": {"type": "string"},
+                      "created_by": {"type": "string"},
+                      "updated_by": {"type": "string"},
+                      "original_revision": {
+                        "type": "object",
+                        "properties": {
+                          "body_md": {"type": "string"},
+                          "number": {"type": "integer"},
+                          "user": {"type": "string"}
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated post",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {"$ref": "./openapi.json#/components/schemas/Post"},
+                    {
+                      "type": "object",
+                      "properties": {
+                        "overlapped": {"type": "boolean"}
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a post",
+        "security": [{"bearerAuth": []}],
+        "responses": {
+          "204": {"description": "Post deleted"}
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "paths": {
+    "/v1/teams/{team_name}/posts/{post_number}/watchers": {
+      "get": {
+        "summary": "List post watchers",
+        "security": [{"bearerAuth": []}],
+        "parameters": [
+          {"$ref": "./openapi.json#/components/parameters/teamName"},
+          {
+            "name": "post_number",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "integer"}
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of watchers",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "watchers": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "created_at": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "user": {"$ref": "./openapi.json#/components/schemas/User"}
+                        }
+                      }
+                    }
+                  },
+                  "allOf": [{"$ref": "./openapi.json#/components/schemas/Pagination"}]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/teams/{team_name}/posts/{post_number}/watch": {
+      "post": {
+        "summary": "Watch a post",
+        "security": [{"bearerAuth": []}],
+        "parameters": [
+          {"$ref": "./openapi.json#/components/parameters/teamName"},
+          {
+            "name": "post_number",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "integer"}
+          }
+        ],
+        "responses": {
+          "204": {"description": "Post watched"}
+        }
+      },
+      "delete": {
+        "summary": "Unwatch a post",
+        "security": [{"bearerAuth": []}],
+        "parameters": [
+          {"$ref": "./openapi.json#/components/parameters/teamName"},
+          {
+            "name": "post_number",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "integer"}
+          }
+        ],
+        "responses": {
+          "204": {"description": "Watch removed"}
+        }
+      }
+    }
+  }
+}

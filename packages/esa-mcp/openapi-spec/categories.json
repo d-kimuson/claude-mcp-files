@@ -1,0 +1,58 @@
+{
+  "paths": {
+    "/v1/teams/{team_name}/categories/batch_move": {
+      "post": {
+        "summary": "Batch move categories",
+        "security": [{"bearerAuth": []}],
+        "parameters": [
+          {"$ref": "./openapi.json#/components/parameters/teamName"}
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["from", "to"],
+                "properties": {
+                  "from": {
+                    "type": "string",
+                    "description": "Source category path"
+                  },
+                  "to": {
+                    "type": "string",
+                    "description": "Destination category path"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Categories moved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "count": {
+                      "type": "integer",
+                      "description": "Number of moved categories including subcategories"
+                    },
+                    "from": {
+                      "type": "string"
+                    },
+                    "to": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
