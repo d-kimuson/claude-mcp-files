@@ -150,6 +150,28 @@ const puppeteerServer = defineMcpServer(
   })
 )
 
+const timeServer = defineMcpServer(
+  "time",
+  v.object({
+    MCP_UVX_PATH: envSchemas.MCP_UVX_PATH,
+  }),
+  ({ env }) => ({
+    command: env.MCP_UVX_PATH,
+    args: ["mcp-server-time"],
+  })
+)
+
+const webResearchServer = defineMcpServer(
+  "webresearch",
+  v.object({
+    MCP_NPX_PATH: envSchemas.MCP_NPX_PATH,
+  }),
+  ({ env }) => ({
+    command: env.MCP_NPX_PATH,
+    args: ["-y", "@mzxrai/mcp-webresearch"],
+  })
+)
+
 const mcpServerCommandsServer = defineMcpServer(
   "mcp-server-commands",
   v.object({
@@ -184,9 +206,13 @@ const mcpServers = [
   fetchServer,
   slackServer,
   puppeteerServer,
+  timeServer,
+  webResearchServer,
   mcpServerCommandsServer,
   esaServer,
 ] as const
+
+export type McpServerName = (typeof mcpServers)[number]["name"]
 
 const generateConfig = async () => {
   const env = v.parse(
