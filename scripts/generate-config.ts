@@ -150,16 +150,14 @@ const puppeteerServer = defineMcpServer(
   })
 )
 
-const commandExecutorServer = defineMcpServer(
-  "command-executor",
+const mcpServerCommandsServer = defineMcpServer(
+  "mcp-server-commands",
   v.object({
-    MCP_NODE_PATH: envSchemas.MCP_NODE_PATH,
+    MCP_NPX_PATH: envSchemas.MCP_NPX_PATH,
   }),
   ({ env }) => ({
-    command: env.MCP_NODE_PATH,
-    args: [
-      resolve(repoRoot, "mcps", "command-executor-mcp", "build", "index.js"),
-    ],
+    command: env.MCP_NPX_PATH,
+    args: ["mcp-server-commands"],
   })
 )
 
@@ -186,7 +184,7 @@ const mcpServers = [
   fetchServer,
   slackServer,
   puppeteerServer,
-  commandExecutorServer,
+  mcpServerCommandsServer,
   esaServer,
 ] as const
 

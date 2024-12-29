@@ -47,3 +47,11 @@ $ pnpm generate:config
 ```bash
 $ git submodule add [repo-url] mcps/[name]
 ```
+
+## 共通MCPの削除
+
+```bash
+$ git submodule deinit -f mcps/[name]
+$ git rm -f mcps/[name]
+$ rm -rf .git/modules/mcps/[name]
+```
