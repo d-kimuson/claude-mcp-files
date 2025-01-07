@@ -1,12 +1,6 @@
-import { execSync } from "node:child_process"
-import { writeFileSync } from "node:fs"
-import { dirname, resolve } from "node:path"
-import { fileURLToPath } from "node:url"
+import { resolve } from "node:path"
+import { createGenerateConfig, defineMcpServer, dirs } from "./helper"
 import * as v from "valibot"
-
-const __dirname = dirname(fileURLToPath(import.meta.url))
-const repoRoot = resolve(__dirname, "..")
-const homeDir = execSync("echo $HOME", { encoding: "utf-8" }).trim()
 
 const envSchemas = {
   MCP_BRAVE_API_KEY: v.string(),
@@ -30,28 +24,6 @@ const envSchemas = {
   MCP_SLACK_TEAM_ID: v.string(),
 } as const
 
-type McpServer = {
-  command: string
-  args?: ReadonlyArray<string>
-  env?: Record<string, string>
-}
-
-const defineMcpServer = <
-  const N extends string,
-  const T extends v.BaseSchema<any, any, any>,
-  const Declare extends McpServer,
->(
-  name: N,
-  requiredEnvSchema: T,
-  cb: (context: { env: v.InferOutput<T> }) => Declare | Promise<Declare>
-) => {
-  return {
-    name,
-    generateConfig: async () =>
-      await cb({ env: v.parse(requiredEnvSchema, process.env) }),
-  } as const
-}
-
 const filesystemServer = defineMcpServer(
   "filesystem",
   v.object({
@@ -64,7 +36,7 @@ const filesystemServer = defineMcpServer(
       "-y",
       "@modelcontextprotocol/server-filesystem",
       ...env.MCP_APP_DIRS.split(",").map((path) =>
-        path.replace("$HOME", homeDir).replace("~", homeDir)
+        path.replace("$HOME", dirs.home).replace("~", dirs.home)
       ),
     ],
   })
@@ -191,7 +163,7 @@ const esaServer = defineMcpServer(
   }),
   ({ env }) => ({
     command: env.MCP_NODE_PATH,
-    args: [resolve(repoRoot, "packages", "esa-mcp", "dist", "index.js")],
+    args: [resolve(dirs.root, "packages", "esa-mcp", "dist", "index.js")],
     env: {
       ESA_API_KEY: env.MCP_ESA_API_KEY,
     },
@@ -216,73 +188,10 @@ const mcpServers = [
 
 export type McpServerName = (typeof mcpServers)[number]["name"]
 
-const generateConfig = async () => {
-  const env = v.parse(
-    v.object({
-      MCP_DISABLE: envSchemas.MCP_DISABLE,
-      MCP_GLOBAL_SHORTCUT: envSchemas.MCP_GLOBAL_SHORTCUT,
-    }),
-    process.env
-  )
-  const disables = env.MCP_DISABLE.split(",")
-
-  const configs = await Promise.all(
-    mcpServers.map(async ({ name, generateConfig }) => {
-      if (disables.includes(name)) return null
-
-      return {
-        name,
-        config: await generateConfig(),
-      }
-    })
-  )
-
-  return {
-    mcpServers: configs
-      .filter((config) => config !== null)
-      .reduce(
-        (s, t) => ({
-          ...s,
-          [t.name]: t.config,
-        }),
-        {}
-      ),
-    globalShortcut: env.MCP_GLOBAL_SHORTCUT,
-  }
-}
-
-const main = async () => {
-  const config = await generateConfig()
-  console.log("Configuration generated.", config)
-
-  const outputPath = resolve(repoRoot, "claude_desktop_config.json")
-  writeFileSync(outputPath, JSON.stringify(config, null, 2))
-  console.log("Configuration file written to", outputPath)
-
-  execSync(
-    `ln -s -f '${outputPath}' '${homeDir}/Library/Application Support/Claude/claude_desktop_config.json'`,
-    { stdio: "inherit" }
-  )
-  console.log("Configuration file copied to Claude Config.")
-}
-
-await main()
-  .then(() => {
-    console.log("Done")
-  })
-  .catch((error) => {
-    if (error instanceof v.ValiError) {
-      for (const issue of error.issues) {
-        console.error("ValidationError", {
-          keys: issue.path.map(({ key }) => key),
-          message: issue.message,
-          expected: issue.expected,
-          received: issue.received,
-        })
-      }
-    } else {
-      console.error(error)
-    }
-
-    process.exit(1)
-  })
+export const generateConfig = createGenerateConfig(
+  v.object({
+    MCP_DISABLE: envSchemas.MCP_DISABLE,
+    MCP_GLOBAL_SHORTCUT: envSchemas.MCP_GLOBAL_SHORTCUT,
+  }),
+  mcpServers
+)

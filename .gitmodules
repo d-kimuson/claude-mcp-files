@@ -1,3 +1,0 @@
-[submodule "mcps/command-executor-mcp"]
-    path = mcps/command-executor-mcp
-    url = git@github.com:Sunwood-ai-labs/command-executor-mcp-server.git
