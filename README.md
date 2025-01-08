@@ -31,6 +31,12 @@ $ cp .env.personal.template .env.personal
 $ pnpm generate:config
 ```
 
+## MCP 実行の自動承認
+
+`Command + Shift + Option + i` で Developer Tool が開ける。
+開いたら [auto_approve_snippet.js](./auto_approve_snippet.js) をコピーして Console に貼り付けることで自動承認ができる。
+スクリプト内に自動承認するツール名の配列が存在するので必要に応じて更新する。
+
 ## ディレクトリ構造
 
 - `mcps/`: clone が必要な MCP の submodule

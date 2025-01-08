@@ -263,7 +263,14 @@ const main = async () => {
     `ln -s -f '${outputPath}' '${homeDir}/Library/Application Support/Claude/claude_desktop_config.json'`,
     { stdio: "inherit" }
   )
-  console.log("Configuration file copied to Claude Config.")
+  console.log("Configuration file linked to Claude Config.")
+
+  const developerSettingsPath = resolve(repoRoot, "developer_settings.json")
+  execSync(
+    `ln -s -f '${developerSettingsPath}' '${homeDir}/Library/Application Support/Claude/developer_settings.json'`,
+    { stdio: "inherit" }
+  )
+  console.log("Auto sync Configuration file linked to Claude Config.")
 }
 
 await main()

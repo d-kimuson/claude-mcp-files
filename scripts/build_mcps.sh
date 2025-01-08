@@ -11,4 +11,4 @@ function npm_install_and_build() {
   popd
 }
 
-npm_install_and_build "command-executor-mcp"
+# npm_install_and_build "command-executor-mcp"

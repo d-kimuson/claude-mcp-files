@@ -29,12 +29,12 @@ export const defineMcpServer = <
   name: N,
   requiredEnvSchema: T,
   cb: (context: { env: v.InferOutput<T> }) => Declare | Promise<Declare>
-): McpDeclare => {
+) => {
   return {
     name,
     generateConfig: async () =>
       await cb({ env: v.parse(requiredEnvSchema, process.env) }),
-  } as const
+  } as const satisfies McpDeclare
 }
 
 export const createGenerateConfig =
