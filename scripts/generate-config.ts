@@ -198,6 +198,22 @@ const esaServer = defineMcpServer(
   })
 )
 
+const storedKnowledgeServer = defineMcpServer(
+  "stored-knowledge",
+  v.object({
+    MCP_NODE_PATH: envSchemas.MCP_NODE_PATH,
+  }),
+  ({ env }) => ({
+    command: env.MCP_NODE_PATH,
+    args: [
+      resolve(repoRoot, "packages", "stored-knowledge-mcp", "dist", "index.js"),
+    ],
+    env: {
+      KNOWLEDGE_JSON_PATH: resolve(repoRoot, "stored_knowledge.json"),
+    },
+  })
+)
+
 const mcpServers = [
   filesystemServer,
   braveSearchServer,
@@ -212,6 +228,7 @@ const mcpServers = [
   webResearchServer,
   mcpServerCommandsServer,
   esaServer,
+  storedKnowledgeServer,
 ] as const
 
 export type McpServerName = (typeof mcpServers)[number]["name"]
