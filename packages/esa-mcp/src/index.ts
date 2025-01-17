@@ -5,9 +5,13 @@ import {
 } from "@modelcontextprotocol/sdk/types.js"
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import { z } from "zod"
-import { getV1TeamsTeamNamePosts } from "./generated/esa-api/esaAPI"
+import {
+  getV1TeamsTeamNamePosts,
+  getV1TeamsTeamNamePostsPostNumber,
+} from "./generated/esa-api/esaAPI"
 import { zodToJsonSchema } from "zod-to-json-schema"
 import { version } from "../package.json"
+import { Post } from "./generated/esa-api/esaAPI.schemas"
 
 const env = z
   .object({
@@ -29,22 +33,31 @@ const server = new Server(
   }
 )
 
+const sortSchema = z
+  .union([
+    z.literal("created"),
+    z.literal("updated"),
+    z.literal("number"),
+    z.literal("stars"),
+    z.literal("comments"),
+    z.literal("best_match"),
+  ])
+  .default("best_match")
+
 const searchPostsSchema = z.object({
   query: z.string(),
   order: z.union([z.literal("asc"), z.literal("desc")]).default("desc"),
-  sort: z
-    .union([
-      z.literal("created"),
-      z.literal("updated"),
-      z.literal("number"),
-      z.literal("stars"),
-      z.literal("comments"),
-      z.literal("best_match"),
-    ])
-    .default("best_match")
-    .optional(),
-  page: z.number().optional(),
-  perPage: z.number().optional().default(10),
+  sort: sortSchema,
+  page: z.number().default(1),
+  perPage: z.number().default(200),
+})
+
+const readEsaPostSchema = z.object({
+  postNumber: z.number(),
+})
+
+const readEsaMultiplePostsSchema = z.object({
+  postNumbers: z.array(z.number()),
 })
 
 server.setRequestHandler(ListToolsRequestSchema, async () => {
@@ -55,9 +68,59 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
         description: "Search posts in esa.io. Response is paginated.",
         inputSchema: zodToJsonSchema(searchPostsSchema),
       },
+      {
+        name: "read_esa_post",
+        description: "Read a post in esa.io.",
+        inputSchema: zodToJsonSchema(readEsaPostSchema),
+      },
+      {
+        name: "read_esa_multiple_posts",
+        description: "Read multiple posts in esa.io.",
+        inputSchema: zodToJsonSchema(readEsaMultiplePostsSchema),
+      },
     ],
   }
 })
+
+const fetchPostsRecursively = async (
+  query: string,
+  order: "asc" | "desc",
+  sort: z.infer<typeof sortSchema>,
+  currentPage: number,
+  endPage: number
+): Promise<Omit<Post, "body_html" | "body_md">[]> => {
+  const response = await getV1TeamsTeamNamePosts(
+    env.DEFAULT_ESA_TEAM,
+    {
+      q: query,
+      order: order,
+      sort: sort,
+      page: currentPage,
+      per_page: 10,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${env.ESA_API_KEY}`,
+      },
+    }
+  )
+
+  // esa 的には取ってきちゃうが、LLM が呼むのに全文は大きすぎるので外す
+  const posts = (response.data.posts ?? []).map(
+    ({ body_html, body_md, ...others }) => others
+  )
+
+  const nextPage = currentPage + 1
+
+  if (nextPage === endPage) {
+    return posts
+  } else {
+    return [
+      ...posts,
+      ...(await fetchPostsRecursively(query, order, sort, nextPage, endPage)),
+    ]
+  }
+}
 
 server.setRequestHandler(CallToolRequestSchema, async (request) => {
   try {
@@ -70,20 +133,17 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           throw new Error(`Invalid arguments for search_posts: ${parsed.error}`)
         }
 
-        const response = await getV1TeamsTeamNamePosts(
-          env.DEFAULT_ESA_TEAM,
-          {
-            q: parsed.data.query,
-            order: parsed.data.order,
-            sort: parsed.data.sort,
-            page: parsed.data.page,
-            per_page: parsed.data.perPage,
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${env.ESA_API_KEY}`,
-            },
-          }
+        const startPage =
+          (parsed.data.page - 1) * (parsed.data.perPage / 10) + 1
+        const endPage = parsed.data.page * (parsed.data.perPage / 10)
+        const nextPage = endPage + 1
+
+        const posts = await fetchPostsRecursively(
+          parsed.data.query,
+          parsed.data.order,
+          parsed.data.sort,
+          startPage,
+          endPage
         )
 
         return {
@@ -91,13 +151,66 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             {
               type: "text",
               text: JSON.stringify({
-                posts: response.data.posts ?? [],
-                nextPage: response.data.next_page,
+                posts: posts,
+                nextPage: nextPage,
               }),
             },
           ],
         }
 
+      case "read_esa_post":
+        const parsedRead = readEsaPostSchema.safeParse(args)
+        if (!parsedRead.success) {
+          throw new Error(
+            `Invalid arguments for read_esa_post: ${parsedRead.error}`
+          )
+        }
+
+        const response = await getV1TeamsTeamNamePostsPostNumber(
+          env.DEFAULT_ESA_TEAM,
+          parsedRead.data.postNumber,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${env.ESA_API_KEY}`,
+            },
+          }
+        )
+        const { body_html, ...others } = response.data
+
+        return {
+          content: [{ type: "text", text: JSON.stringify(others) }],
+        }
+
+      case "read_esa_multiple_posts":
+        const parsedReadMultiple = readEsaMultiplePostsSchema.safeParse(args)
+        if (!parsedReadMultiple.success) {
+          throw new Error(
+            `Invalid arguments for read_esa_multiple_posts: ${parsedReadMultiple.error}`
+          )
+        }
+
+        const multiplePosts = await Promise.all(
+          parsedReadMultiple.data.postNumbers.map(async (postNumber) => {
+            const response = await getV1TeamsTeamNamePostsPostNumber(
+              env.DEFAULT_ESA_TEAM,
+              postNumber,
+              {},
+              {
+                headers: {
+                  Authorization: `Bearer ${env.ESA_API_KEY}`,
+                },
+              }
+            )
+            const { body_html, ...others } = response.data
+
+            return others
+          })
+        )
+
+        return {
+          content: [{ type: "text", text: JSON.stringify(multiplePosts) }],
+        }
       default:
         throw new Error(`Unknown tool: ${name}`)
     }

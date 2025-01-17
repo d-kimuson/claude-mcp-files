@@ -92,7 +92,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       }
     })()
 
-    const knowledge = knowledgeJsonSchema.parse(rawFileContent)
+    const knowledge = knowledgeJsonSchema.parse(JSON.parse(rawFileContent))
 
     switch (name) {
       case "save_knowledge":
