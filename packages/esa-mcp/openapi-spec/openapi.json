@@ -106,6 +106,18 @@
         "required": true,
         "schema": { "type": "string" },
         "description": "Team name (subdomain)"
+      },
+      "page": {
+        "name": "page",
+        "in": "query",
+        "schema": { "type": "number" },
+        "description": "page number"
+      },
+      "perPage": {
+        "name": "per_page",
+        "in": "query",
+        "schema": { "type": "number" },
+        "description": "number of items per page"
       }
     },
     "schemas": {

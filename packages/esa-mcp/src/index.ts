@@ -12,6 +12,7 @@ import { version } from "../package.json"
 const env = z
   .object({
     ESA_API_KEY: z.string(),
+    DEFAULT_ESA_TEAM: z.string(),
   })
   .parse(process.env)
 
@@ -29,7 +30,6 @@ const server = new Server(
 )
 
 const searchPostsSchema = z.object({
-  team: z.string(),
   query: z.string(),
   order: z.union([z.literal("asc"), z.literal("desc")]).default("desc"),
   sort: z
@@ -44,13 +44,14 @@ const searchPostsSchema = z.object({
     .default("best_match")
     .optional(),
   page: z.number().optional(),
+  perPage: z.number().optional().default(10),
 })
 
 server.setRequestHandler(ListToolsRequestSchema, async () => {
   return {
     tools: [
       {
-        name: "search_posts",
+        name: "search_esa_posts",
         description: "Search posts in esa.io. Response is paginated.",
         inputSchema: zodToJsonSchema(searchPostsSchema),
       },
@@ -63,18 +64,20 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
     const { name, arguments: args } = request.params
 
     switch (name) {
-      case "search_posts":
+      case "search_esa_posts":
         const parsed = searchPostsSchema.safeParse(args)
         if (!parsed.success) {
           throw new Error(`Invalid arguments for search_posts: ${parsed.error}`)
         }
 
         const response = await getV1TeamsTeamNamePosts(
-          parsed.data.team,
+          env.DEFAULT_ESA_TEAM,
           {
             q: parsed.data.query,
             order: parsed.data.order,
             sort: parsed.data.sort,
+            page: parsed.data.page,
+            per_page: parsed.data.perPage,
           },
           {
             headers: {
@@ -84,8 +87,15 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         )
 
         return {
-          posts: response.data.posts ?? [],
-          nextPage: response.data.next_page,
+          content: [
+            {
+              type: "text",
+              text: JSON.stringify({
+                posts: response.data.posts ?? [],
+                nextPage: response.data.next_page,
+              }),
+            },
+          ],
         }
 
       default:

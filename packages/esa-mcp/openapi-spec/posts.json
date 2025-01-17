@@ -51,7 +51,9 @@
               "enum": ["asc", "desc"],
               "default": "desc"
             }
-          }
+          },
+          { "$ref": "./openapi.json#/components/parameters/page" },
+          { "$ref": "./openapi.json#/components/parameters/perPage" }
         ],
         "responses": {
           "200": {

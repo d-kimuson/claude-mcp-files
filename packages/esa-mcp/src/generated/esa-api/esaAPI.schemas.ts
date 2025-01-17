@@ -316,6 +316,14 @@ q?: string;
 include?: GetV1TeamsTeamNamePostsInclude;
 sort?: GetV1TeamsTeamNamePostsSort;
 order?: GetV1TeamsTeamNamePostsOrder;
+/**
+ * page number
+ */
+page?: PageParameter;
+/**
+ * number of items per page
+ */
+per_page?: PerPageParameter;
 };
 
 export type GetV1TeamsTeamNameStats200 = {
@@ -396,6 +404,16 @@ export type PostOauthTokenBody = {
   grant_type: PostOauthTokenBodyGrantType;
   redirect_uri: string;
 };
+
+/**
+ * number of items per page
+ */
+export type PerPageParameter = number;
+
+/**
+ * page number
+ */
+export type PageParameter = number;
 
 export interface ErrorResponseBody {
   error: string;

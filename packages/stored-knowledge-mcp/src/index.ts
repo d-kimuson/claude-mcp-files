@@ -112,11 +112,18 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             knowledge[index].contentMd + "\n\n" + parsed.data.contentMd
         }
 
-        return {}
+        return {
+          content: [{ type: "text", text: "success" }],
+        }
 
       case "get_reference_keys":
         return {
-          content: knowledge.map((k) => k.referenceKey),
+          content: [
+            {
+              type: "text",
+              text: JSON.stringify(knowledge.map((k) => k.referenceKey)),
+            },
+          ],
         }
 
       case "reference_knowledge":
@@ -134,7 +141,9 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         )
 
         return {
-          content: referencedKnowledge,
+          content: [
+            { type: "text", text: JSON.stringify(referencedKnowledge) },
+          ],
         }
       default:
         throw new Error(`Unknown tool: ${name}`)
