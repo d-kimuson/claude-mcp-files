@@ -3,6 +3,7 @@ import {
   CallToolRequestSchema,
   ListToolsRequestSchema,
 } from "@modelcontextprotocol/sdk/types.js"
+import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import { z } from "zod"
 import { getV1TeamsTeamNamePosts } from "./generated/esa-api/esaAPI"
 import { zodToJsonSchema } from "zod-to-json-schema"
@@ -22,6 +23,7 @@ const server = new Server(
   {
     capabilities: {
       resources: {},
+      tools: {},
     },
   }
 )
@@ -97,3 +99,6 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
     }
   }
 })
+
+const transport = new StdioServerTransport()
+await server.connect(transport)

@@ -1,0 +1,19 @@
+{
+  "name": "@claude-mcp-files/stored-knowledge-mcp",
+  "version": "0.1.0",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "esbuild ./src/index.ts --format=esm --platform=node --bundle --packages=external --outdir=dist"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.4",
+    "zod": "^3.24.1",
+    "zod-to-json-schema": "^3.24.1"
+  }
+}
