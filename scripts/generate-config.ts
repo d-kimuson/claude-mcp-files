@@ -63,7 +63,7 @@ const filesystemServer = defineMcpServer(
     command: env.MCP_NPX_PATH,
     args: [
       "-y",
-      "@modelcontextprotocol/server-filesystem",
+      "@modelcontextprotocol/server-filesystem@latest",
       ...env.MCP_APP_DIRS.split(",").map((path) =>
         path.replace("$HOME", homeDir).replace("~", homeDir)
       ),
@@ -79,7 +79,7 @@ const braveSearchServer = defineMcpServer(
   }),
   ({ env }) => ({
     command: env.MCP_NPX_PATH,
-    args: ["-y", "@modelcontextprotocol/server-brave-search"],
+    args: ["-y", "@modelcontextprotocol/server-brave-search@latest"],
     env: {
       BRAVE_API_KEY: env.MCP_BRAVE_API_KEY,
     },
@@ -93,7 +93,7 @@ const sequentialThinkingServer = defineMcpServer(
   }),
   ({ env }) => ({
     command: env.MCP_NPX_PATH,
-    args: ["-y", "@modelcontextprotocol/server-sequential-thinking"],
+    args: ["-y", "@modelcontextprotocol/server-sequential-thinking@latest"],
   })
 )
 
@@ -105,7 +105,7 @@ const githubServer = defineMcpServer(
   }),
   ({ env }) => ({
     command: env.MCP_NPX_PATH,
-    args: ["-y", "@modelcontextprotocol/server-github"],
+    args: ["-y", "@modelcontextprotocol/server-github@latest"],
     env: {
       GITHUB_PERSONAL_ACCESS_TOKEN: env.MCP_GITHUB_TOKEN,
     },
@@ -132,7 +132,7 @@ const slackServer = defineMcpServer(
   }),
   ({ env }) => ({
     command: env.MCP_NPX_PATH,
-    args: ["-y", "@modelcontextprotocol/server-slack"],
+    args: ["-y", "@modelcontextprotocol/server-slack@latest"],
     env: {
       SLACK_BOT_TOKEN: env.MCP_SLACK_BOT_TOKEN,
       SLACK_TEAM_ID: env.MCP_SLACK_TEAM_ID,
@@ -147,7 +147,7 @@ const puppeteerServer = defineMcpServer(
   }),
   ({ env }) => ({
     command: env.MCP_NPX_PATH,
-    args: ["-y", "@modelcontextprotocol/server-puppeteer"],
+    args: ["-y", "@modelcontextprotocol/server-puppeteer@latest"],
   })
 )
 
@@ -169,7 +169,7 @@ const webResearchServer = defineMcpServer(
   }),
   ({ env }) => ({
     command: env.MCP_NPX_PATH,
-    args: ["-y", "@mzxrai/mcp-webresearch"],
+    args: ["-y", "@mzxrai/mcp-webresearch@latest"],
   })
 )
 
@@ -180,7 +180,7 @@ const mcpServerCommandsServer = defineMcpServer(
   }),
   ({ env }) => ({
     command: env.MCP_NPX_PATH,
-    args: ["mcp-server-commands"],
+    args: ["mcp-server-commands@latest"],
   })
 )
 
