@@ -285,6 +285,12 @@ const main = async () => {
   )
   console.log("Configuration file linked to Claude Config.")
 
+  execSync(
+    `ln -s -f '${outputPath}' '${homeDir}/Library/Application Support/Code/User/globalStorage/saoudrizwan.claude-dev/settings/cline_mcp_settings.json'`,
+    { stdio: "inherit" }
+  )
+  console.log("Configuration file linked to Cline Config.")
+
   const developerSettingsPath = resolve(repoRoot, "developer_settings.json")
   execSync(
     `ln -s -f '${developerSettingsPath}' '${homeDir}/Library/Application Support/Claude/developer_settings.json'`,
