@@ -291,6 +291,12 @@ const main = async () => {
   )
   console.log("Configuration file linked to Cline Config.")
 
+  execSync(
+    `ln -s -f '${outputPath}' '${homeDir}/Library/Application Support/Code/User/globalStorage/rooveterinaryinc.roo-cline/settings/cline_mcp_settings.json'`,
+    { stdio: "inherit" }
+  )
+  console.log("Configuration file linked to Roo Code Config.")
+
   const developerSettingsPath = resolve(repoRoot, "developer_settings.json")
   execSync(
     `ln -s -f '${developerSettingsPath}' '${homeDir}/Library/Application Support/Claude/developer_settings.json'`,
