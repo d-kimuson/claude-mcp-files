@@ -5,6 +5,7 @@ import * as v from "valibot"
 const envSchemas = {
   MCP_BRAVE_API_KEY: v.string(),
   MCP_ESA_API_KEY: v.string(),
+  MCP_ESA_DEFAULT_TEAM: v.string(),
   MCP_NODE_PATH: v.optional(v.string(), "node"),
   MCP_NPX_PATH: v.optional(v.string(), "npx"),
   MCP_UVX_PATH: v.optional(v.string(), "uvx"),
@@ -160,12 +161,14 @@ const esaServer = defineMcpServer(
   v.object({
     MCP_NPX_PATH: envSchemas.MCP_NPX_PATH,
     MCP_ESA_API_KEY: envSchemas.MCP_ESA_API_KEY,
+    MCP_ESA_DEFAULT_TEAM: envSchemas.MCP_ESA_DEFAULT_TEAM,
   }),
   ({ env }) => ({
     command: env.MCP_NPX_PATH,
     args: ["-y", "esa-mcp-server"],
     env: {
       ESA_API_KEY: env.MCP_ESA_API_KEY,
+      DEFAULT_ESA_TEAM: env.MCP_ESA_DEFAULT_TEAM,
     },
   })
 )

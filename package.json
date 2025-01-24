@@ -15,7 +15,7 @@
     "build": "pnpm /^build:.*/",
     "build:turbo": "turbo run build",
     "build:mcps": "./scripts/build_mcps.sh",
-    "generate:config": "direnv allow && tsx ./scripts/generate-config.ts",
+    "generate:config": "direnv allow && tsx ./scripts/generate-config/index.ts",
     "generate:env": "op inject -i .env.secret.template -o .env.secret",
     "run:prettier": "prettier --ignore-unknown --no-error-on-unmatched-pattern --cache"
   },
