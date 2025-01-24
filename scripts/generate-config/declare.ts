@@ -156,14 +156,14 @@ const mcpServerCommandsServer = defineMcpServer(
 )
 
 const esaServer = defineMcpServer(
-  "esa",
+  "esa-mcp-server",
   v.object({
-    MCP_NODE_PATH: envSchemas.MCP_NODE_PATH,
+    MCP_NPX_PATH: envSchemas.MCP_NPX_PATH,
     MCP_ESA_API_KEY: envSchemas.MCP_ESA_API_KEY,
   }),
   ({ env }) => ({
-    command: env.MCP_NODE_PATH,
-    args: [resolve(dirs.root, "packages", "esa-mcp", "dist", "index.js")],
+    command: env.MCP_NPX_PATH,
+    args: ["-y", "esa-mcp-server"],
     env: {
       ESA_API_KEY: env.MCP_ESA_API_KEY,
     },
