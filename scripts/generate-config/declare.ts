@@ -1,4 +1,3 @@
-import { resolve } from "node:path"
 import { createGenerateConfig, defineMcpServer, dirs } from "./helper"
 import * as v from "valibot"
 
@@ -6,6 +5,7 @@ const envSchemas = {
   MCP_BRAVE_API_KEY: v.string(),
   MCP_ESA_API_KEY: v.string(),
   MCP_ESA_DEFAULT_TEAM: v.string(),
+  MCP_EXA_API_KEY: v.string(),
   MCP_NODE_PATH: v.optional(v.string(), "node"),
   MCP_NPX_PATH: v.optional(v.string(), "npx"),
   MCP_UVX_PATH: v.optional(v.string(), "uvx"),
@@ -54,6 +54,32 @@ const braveSearchServer = defineMcpServer(
     args: ["-y", "@modelcontextprotocol/server-brave-search"],
     env: {
       BRAVE_API_KEY: env.MCP_BRAVE_API_KEY,
+    },
+  })
+)
+
+const webResearchServer = defineMcpServer(
+  "webresearch",
+  v.object({
+    MCP_NPX_PATH: envSchemas.MCP_NPX_PATH,
+  }),
+  ({ env }) => ({
+    command: env.MCP_NPX_PATH,
+    args: ["-y", "@mzxrai/mcp-webresearch"],
+  })
+)
+
+const exaMcpServer = defineMcpServer(
+  "exa",
+  v.object({
+    MCP_NPX_PATH: envSchemas.MCP_NPX_PATH,
+    MCP_EXA_API_KEY: envSchemas.MCP_EXA_API_KEY,
+  }),
+  ({ env }) => ({
+    command: env.MCP_NPX_PATH,
+    args: ["-y", "exa-mcp-server"],
+    env: {
+      EXA_API_KEY: env.MCP_EXA_API_KEY,
     },
   })
 )
@@ -134,17 +160,6 @@ const timeServer = defineMcpServer(
   })
 )
 
-const webResearchServer = defineMcpServer(
-  "webresearch",
-  v.object({
-    MCP_NPX_PATH: envSchemas.MCP_NPX_PATH,
-  }),
-  ({ env }) => ({
-    command: env.MCP_NPX_PATH,
-    args: ["-y", "@mzxrai/mcp-webresearch"],
-  })
-)
-
 const mcpServerCommandsServer = defineMcpServer(
   "mcp-server-commands",
   v.object({
@@ -176,15 +191,16 @@ const esaServer = defineMcpServer(
 const mcpServers = [
   filesystemServer,
   braveSearchServer,
+  webResearchServer,
+  exaMcpServer,
   sequentialThinkingServer,
   githubServer,
   fetchServer,
   slackServer,
   puppeteerServer,
-  // 動かないので ignore 推奨
+  // 動かないので ignore
   // reason: zoneinfo._common.ZoneInfoNotFoundError: 'No time zone found with key JST'
   timeServer,
-  webResearchServer,
   mcpServerCommandsServer,
   esaServer,
 ] as const
