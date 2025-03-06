@@ -6,7 +6,7 @@
  * 機能:
  * - trustedTools については Auto Approve させる
  * - Claude が1レスポンスの上限で止まってしまった場合は自動で「続けて」と送信する
- * - Enter を送信ではなく改行に割り当てる。Shift 以外の装飾キー有りの場合はなにもしないので Ctrl + Enter や Command + Enter で送信できる
+ * - Enter を送信ではなく改行に割り当てる。装飾キー有りの場合はなにもしないので Ctrl + Enter や Command + Enter で送信できる
  */
 
 const trustedTools = [
@@ -98,18 +98,26 @@ const autoApprove = () => {
   return true
 }
 
+const isMessageElement = (element) => {
+  if (element.tagName === "TEXTAREA") return true
+
+  const editable = element.getAttribute("contenteditable")
+  return editable === "true"
+}
+
 const handleKeydown = (event) => {
-  const contentEditableAttr = event.target.getAttribute("contenteditable")
-  if (contentEditableAttr !== "true") {
+  if (!isMessageElement(event.target)) {
     console.log(
-      "[DEBUG] contenteditable 属性が設定されていないのでスキップします。",
+      "[DEBUG] メッセージ送信用の Element ではないのでスキップします。",
       event.target
     )
+
     return
   }
 
   // Enterキーのみの場合（Shift 以外の修飾キーなし）
-  const isOnlyEnter = event.key === "Enter" && !(event.ctrlKey || event.metaKey)
+  const isOnlyEnter =
+    event.key === "Enter" && !(event.ctrlKey || event.metaKey || event.shiftKey)
 
   // Enter を無効にして改行判定の Shift+Enter に差し替える
   // 装飾キーがない場合はハンドリングされないので、適当な装飾キーをつければ送信できる
