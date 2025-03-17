@@ -6,6 +6,7 @@ const envSchemas = {
   MCP_ESA_API_KEY: v.string(),
   MCP_ESA_DEFAULT_TEAM: v.string(),
   MCP_EXA_API_KEY: v.string(),
+  MCP_FIGMA_API_KEY: v.string(),
   MCP_NODE_PATH: v.optional(v.string(), "node"),
   MCP_NPX_PATH: v.optional(v.string(), "npx"),
   MCP_UVX_PATH: v.optional(v.string(), "uvx"),
@@ -188,6 +189,21 @@ const esaServer = defineMcpServer(
   })
 )
 
+const figmaServer = defineMcpServer(
+  "figma-developer-mcp",
+  v.object({
+    MCP_NPX_PATH: envSchemas.MCP_NPX_PATH,
+    MCP_FIGMA_API_KEY: envSchemas.MCP_FIGMA_API_KEY,
+  }),
+  ({ env }) => ({
+    command: env.MCP_NPX_PATH,
+    args: ["-y", "figma-developer-mcp", "--stdio"],
+    env: {
+      FIGMA_API_KEY: env.MCP_FIGMA_API_KEY,
+    },
+  })
+)
+
 const mcpServers = [
   filesystemServer,
   braveSearchServer,
@@ -203,6 +219,7 @@ const mcpServers = [
   timeServer,
   mcpServerCommandsServer,
   esaServer,
+  figmaServer,
 ] as const
 
 export type McpServerName = (typeof mcpServers)[number]["name"]
