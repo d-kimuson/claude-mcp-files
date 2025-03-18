@@ -10,25 +10,32 @@
  */
 
 const trustedTools = [
-  "fetch",
-  "search_esa_posts",
-  "read_esa_post",
-  "read_esa_multiple_posts",
-  "search",
+  // filesystem (read)
+  "list_allowed_directories",
+  "directory_tree",
   "read_file",
   "read_multiple_files",
   "list_directory",
-  "directory_tree",
   "search_files",
   "get_file_info",
-  "list_allowed_directories",
-  // 更新系は一応許可必要にする
-  // "run_command",
-  // "run_script",
-  // "write_file",
-  // "edit_file",
-  // "create_directory",
-  // "move_file",
+  // filesystem (write)
+  "create_directory",
+  "edit_file",
+  "write_file",
+  "move_file",
+  // fetch
+  "fetch",
+  // esa-mcp-server
+  "search_esa_posts",
+  "read_esa_post",
+  "read_esa_multiple_posts",
+  // exa
+  "search",
+  // mcp-server-commands
+  "run_command",
+  "run_script",
+  // figma-developer-mcp
+  "get_figma_data",
 ]
 
 let lastExecution = 0
@@ -50,7 +57,9 @@ const autoContinue = () => {
   if (
     warningMessage === null ||
     warningMessage.innerText !==
-      "Claude’s response was limited as it hit the maximum length allowed at this time."
+      "Claude’s response was limited as it hit the maximum length allowed at this time." ||
+    warningMessage.innerText !==
+      "クロードがメッセージの最大文字数に達したため、応答を一時停止しています。「続ける」と入力してチャットを継続できます。"
   ) {
     console.log("❌ No warning message found")
     return false
@@ -71,10 +80,10 @@ const autoApprove = () => {
     return false
   }
 
-  const toolName = dialog
-    .querySelector("button > div")
-    .textContent?.match(/Run (\S+) from/)
-    ?.at(1)
+  const toolDiv = dialog.querySelector("button > div")
+  const toolName =
+    toolDiv.textContent?.match(/Run (\S+) from/)?.at(1) ?? // 昔のバージョン
+    toolDiv.textContent?.match(/(\S+)から(\S+)を実行/)?.at(2) // 現在のバージョン. 日本語
   const allowButton = dialog.querySelector("[type=button]")
 
   if (!toolName || !allowButton) {
@@ -115,7 +124,7 @@ const handleKeydown = (event) => {
     return
   }
 
-  // Enterキーのみの場合（Shift 以外の修飾キーなし）
+  // Enterキーのみの場合
   const isOnlyEnter =
     event.key === "Enter" && !(event.ctrlKey || event.metaKey || event.shiftKey)
 
@@ -140,11 +149,12 @@ const handleKeydown = (event) => {
       shiftKey: true,
       ctrlKey: false,
       metaKey: false,
+      isTrusted: true,
+      composed: true,
     })
-
     event.target.dispatchEvent(newEvent)
   } else {
-    console.log("[DEBUG] Enter キーでないのでなにもしません")
+    console.log("[DEBUG] Enter キーでないのでなにもしません", event)
   }
 }
 
