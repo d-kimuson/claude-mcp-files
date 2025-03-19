@@ -36,6 +36,14 @@ const trustedTools = [
   "run_script",
   // figma-developer-mcp
   "get_figma_data",
+  // claude-code
+  "Replace",
+  "LS",
+  "GrepTool",
+  "GlobTool",
+  "Edit",
+  "Bash",
+  "dispatch_agent",
 ]
 
 let lastExecution = 0
