@@ -10,6 +10,7 @@ const envSchemas = {
   MCP_NODE_PATH: v.optional(v.string(), "node"),
   MCP_NPX_PATH: v.optional(v.string(), "npx"),
   MCP_UVX_PATH: v.optional(v.string(), "uvx"),
+  MCP_CLAUDE_PATH: v.optional(v.string(), "claude"),
   /**
    * @example ""
    * @example "~/Apps,~/Playground"
@@ -204,6 +205,17 @@ const figmaServer = defineMcpServer(
   })
 )
 
+const claudeCodeServer = defineMcpServer(
+  "claude-code",
+  v.object({
+    MCP_CLAUDE_PATH: envSchemas.MCP_CLAUDE_PATH,
+  }),
+  ({ env }) => ({
+    command: env.MCP_CLAUDE_PATH,
+    args: ["mcp", "serve"],
+  })
+)
+
 const mcpServers = [
   filesystemServer,
   braveSearchServer,
@@ -220,6 +232,7 @@ const mcpServers = [
   mcpServerCommandsServer,
   esaServer,
   figmaServer,
+  claudeCodeServer,
 ] as const
 
 export type McpServerName = (typeof mcpServers)[number]["name"]
