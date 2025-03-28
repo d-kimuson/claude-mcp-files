@@ -5,8 +5,7 @@ dist/
 
 claude_desktop_config.json
 
-.env.personal
-.env.secret
+.env
 
 .turbo
 

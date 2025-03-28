@@ -188,17 +188,6 @@ const figmaServer = defineMcpServer(
  * Others
  */
 
-const timeServer = defineMcpServer(
-  "time",
-  v.object({
-    MCP_UVX_PATH: envSchemas.MCP_UVX_PATH,
-  }),
-  ({ env }) => ({
-    command: env.MCP_UVX_PATH,
-    args: ["mcp-server-time"],
-  })
-)
-
 const playwrightServer = defineMcpServer(
   "playwright",
   v.object({
@@ -228,7 +217,6 @@ const mcpServers = [
   figmaServer,
 
   // others
-  timeServer,
   playwrightServer,
 ] as const
 
