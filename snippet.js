@@ -10,6 +10,21 @@
  */
 
 const trustedTools = [
+  // === thinking ===
+  // think
+  "think",
+
+  // sequential-thinking
+  "sequentialthinking",
+
+  // === research ===
+  // exa
+  "search",
+
+  // fetch
+  "fetch",
+
+  // === development ===
   // filesystem (read)
   "list_allowed_directories",
   "directory_tree",
@@ -18,32 +33,27 @@ const trustedTools = [
   "list_directory",
   "search_files",
   "get_file_info",
+
   // filesystem (write)
   "create_directory",
   "edit_file",
   "write_file",
   "move_file",
-  // fetch
-  "fetch",
+
+  // mcp-server-commands
+  "run_command",
+  "run_script",
+
+  // === SaaS ===
+  // slack
+
   // esa-mcp-server
   "search_esa_posts",
   "read_esa_post",
   "read_esa_multiple_posts",
-  // exa
-  "search",
-  // mcp-server-commands
-  "run_command",
-  "run_script",
+
   // figma-developer-mcp
   "get_figma_data",
-  // claude-code
-  "Replace",
-  "LS",
-  "GrepTool",
-  "GlobTool",
-  "Edit",
-  "Bash",
-  "dispatch_agent",
 ]
 
 let lastExecution = 0
