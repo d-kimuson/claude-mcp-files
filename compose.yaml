@@ -1,0 +1,15 @@
+services:
+  db:
+    image: ankane/pgvector:latest
+    container_name: mcp_rag_postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: mcp_rag
+    ports:
+      - "127.0.0.1:4432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:

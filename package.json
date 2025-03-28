@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "compose:up": "docker compose up -d --wait",
     "lint": "pnpm /^lint:.*/",
     "lint:turbo": "turbo run lint",
     "lint:prettier": "pnpm run:prettier . --check",
