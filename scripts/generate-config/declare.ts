@@ -199,6 +199,17 @@ const timeServer = defineMcpServer(
   })
 )
 
+const playwrightServer = defineMcpServer(
+  "playwright",
+  v.object({
+    MCP_NPX_PATH: envSchemas.MCP_NPX_PATH,
+  }),
+  ({ env }) => ({
+    command: env.MCP_NPX_PATH,
+    args: ["-y", "@playwright/mcp@latest"],
+  })
+)
+
 const mcpServers = [
   // thinking
   thinkServer,
@@ -218,6 +229,7 @@ const mcpServers = [
 
   // others
   timeServer,
+  playwrightServer,
 ] as const
 
 export type McpServerName = (typeof mcpServers)[number]["name"]
