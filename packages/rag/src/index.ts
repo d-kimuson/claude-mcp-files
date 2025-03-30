@@ -4,32 +4,53 @@ import { z } from "zod"
 import { version } from "../package.json"
 import { createContext } from "./context/createContext"
 import { indexCodebase } from "./core/indexCodebase"
+import { findRelevantDocuments } from "./core/findRelevantDocuments"
+import { findRelevantResources } from "./core/findRelevantResources"
+import { formatRagContents } from "./core/formatRagContents"
+
+const [_node, _file, name, targetDirectory] = process.argv
+
+if (targetDirectory === undefined || name === undefined) {
+  throw new Error("target directory and name are required")
+}
+
+const ctx = await createContext()
 
 const server = new McpServer({
-  name: "rag",
+  name: `rag-codebase-${name}`,
   version: version,
 })
 
 server.tool(
-  "rag",
-  "TBD",
+  `${name}-find-relevant-documents`,
+  "Find relevant documents from the codebase.",
   {
     question: z.string().describe("A question to ask."),
   },
-  async () => {
+  async ({ question }) => {
+    const ctx = await createContext()
+    const documents = await findRelevantDocuments(ctx)(question)
     return {
-      content: [{ type: "text", text: "success" }],
+      content: [{ type: "text", text: formatRagContents(documents) }],
     }
   }
 )
 
-const [_node, _file, targetDirectory] = process.argv
+server.tool(
+  `${name}-find-relevant-resources`,
+  "Find relevant resources from the codebase.",
+  {
+    question: z.string().describe("A question to ask."),
+  },
+  async ({ question }) => {
+    const ctx = await createContext()
+    const resources = await findRelevantResources(ctx)(question)
+    return {
+      content: [{ type: "text", text: formatRagContents(resources) }],
+    }
+  }
+)
 
-if (targetDirectory === undefined) {
-  throw new Error("target directory is required")
-}
-
-const ctx = await createContext()
 await indexCodebase(ctx)(targetDirectory)
 
 const transport = new StdioServerTransport()

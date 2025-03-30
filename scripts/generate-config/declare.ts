@@ -1,6 +1,7 @@
-import { resolve } from "node:path"
+import { dirname, resolve } from "node:path"
 import { createGenerateConfig, defineMcpServer, dirs } from "./helper"
 import * as v from "valibot"
+import { execSync } from "node:child_process"
 
 const envSchemas = {
   MCP_ESA_API_KEY: v.string(),
@@ -25,6 +26,8 @@ const envSchemas = {
   MCP_GITHUB_TOKEN: v.string(),
   MCP_SLACK_BOT_TOKEN: v.string(),
   MCP_SLACK_TEAM_ID: v.string(),
+  MCP_OPENAI_API_KEY: v.string(),
+  MCP_RAG_PROJECTS: v.optional(v.string(), ""),
 } as const
 
 /**
@@ -114,6 +117,45 @@ const mcpServerCommandsServer = defineMcpServer(
     command: env.MCP_NPX_PATH,
     args: ["mcp-server-commands"],
   })
+)
+
+const ragProjects = v
+  .parse(envSchemas.MCP_RAG_PROJECTS, process.env["MCP_RAG_PROJECTS"])
+  .split(",")
+  .map((path) => path.replace("$HOME", dirs.home).replace("~", dirs.home))
+  .map((path) => {
+    const name = path
+      .replace(dirs.home, "")
+      .split("/")
+      .filter((part) => part.trim() !== "")
+      .join("-")
+      .toLocaleLowerCase()
+
+    return {
+      name,
+      path,
+    }
+  })
+
+const ragServers = ragProjects.map((project) =>
+  defineMcpServer(
+    `rag-codebase-${project.name}`,
+    v.object({
+      MCP_NODE_PATH: envSchemas.MCP_NODE_PATH,
+      MCP_OPENAI_API_KEY: envSchemas.MCP_OPENAI_API_KEY,
+    }),
+    ({ env }) => ({
+      command: env.MCP_NODE_PATH,
+      args: [
+        resolve(process.cwd(), "packages", "rag", "dist", "index.js"),
+        project.name,
+        project.path,
+      ],
+      env: {
+        OPENAI_API_KEY: env.MCP_OPENAI_API_KEY,
+      },
+    })
+  )
 )
 
 const githubServer = defineMcpServer(
@@ -212,6 +254,9 @@ const mcpServers = [
   filesystemServer,
   mcpServerCommandsServer,
   githubServer,
+  ...ragServers,
+
+  // saas
   slackServer,
   esaServer,
   figmaServer,

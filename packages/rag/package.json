@@ -1,5 +1,5 @@
 {
-  "name": "@claude-mcp-files/think",
+  "name": "@claude-mcp-files/rag",
   "version": "0.1.0",
   "type": "module",
   "exports": {

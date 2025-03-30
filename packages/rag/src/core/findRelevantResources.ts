@@ -4,7 +4,7 @@ import { resolveEmbeddingAdapter } from "./adapter/resolver"
 import { withContext } from "../context/withContext"
 
 export const findRelevantResources = withContext(
-  async (ctx) =>
+  (ctx) =>
     async (
       userQuery: string,
       options: {

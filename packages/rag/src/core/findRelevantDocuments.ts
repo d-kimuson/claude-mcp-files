@@ -5,7 +5,7 @@ import { resolveEmbeddingAdapter } from "./adapter/resolver"
 import { withContext } from "../context/withContext"
 
 export const findRelevantDocuments = withContext(
-  async (ctx) =>
+  (ctx) =>
     async (
       userQuery: string,
       options: {
