@@ -56,6 +56,8 @@ const trustedTools = [
   "get_figma_data",
 ]
 
+const trustedPrefixes = []
+
 let lastExecution = 0
 const COOLDOWN_MS = 500
 
@@ -115,7 +117,10 @@ const autoApprove = () => {
 
   console.log("🛠️ Tool name:", toolName)
 
-  if (trustedTools.includes(toolName)) {
+  if (
+    trustedTools.includes(toolName) ||
+    trustedPrefixes.some((prefix) => toolName.startsWith(prefix))
+  ) {
     console.log("🚀 Auto-approving tool:", toolName)
     allowButton.click()
   } else {
