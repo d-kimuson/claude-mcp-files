@@ -1,7 +1,6 @@
 import { dirname, resolve } from "node:path"
 import { createGenerateConfig, defineMcpServer, dirs } from "./helper"
 import * as v from "valibot"
-import { execSync } from "node:child_process"
 
 const envSchemas = {
   MCP_ESA_API_KEY: v.string(),
@@ -122,6 +121,7 @@ const mcpServerCommandsServer = defineMcpServer(
 const ragProjects = v
   .parse(envSchemas.MCP_RAG_PROJECTS, process.env["MCP_RAG_PROJECTS"])
   .split(",")
+  .filter((project) => project.trim() !== "")
   .map((path) => path.replace("$HOME", dirs.home).replace("~", dirs.home))
   .map((path) => {
     const name = path
