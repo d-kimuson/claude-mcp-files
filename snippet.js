@@ -16,7 +16,7 @@ const trustedTools = [
 
   // === research ===
   // exa
-  "search",
+  "web_search",
 
   // fetch
   "fetch",
@@ -37,10 +37,6 @@ const trustedTools = [
   "write_file",
   "move_file",
 
-  // mcp-server-commands
-  "run_command",
-  "run_script",
-
   // === SaaS ===
   // slack
 
@@ -48,9 +44,6 @@ const trustedTools = [
   "search_esa_posts",
   "read_esa_post",
   "read_esa_multiple_posts",
-
-  // figma
-  "get_figma_node",
 ]
 
 const trustedPrefixes = []

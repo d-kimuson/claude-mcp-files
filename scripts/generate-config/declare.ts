@@ -1,4 +1,4 @@
-import { dirname, resolve } from "node:path"
+import { resolve } from "node:path"
 import { createGenerateConfig, defineMcpServer, dirs } from "./helper"
 import * as v from "valibot"
 
@@ -93,17 +93,6 @@ const filesystemServer = defineMcpServer(
         path.replace("$HOME", dirs.home).replace("~", dirs.home)
       ),
     ],
-  })
-)
-
-const mcpServerCommandsServer = defineMcpServer(
-  "mcp-server-commands",
-  v.object({
-    MCP_NPX_PATH: envSchemas.MCP_NPX_PATH,
-  }),
-  ({ env }) => ({
-    command: env.MCP_NPX_PATH,
-    args: ["mcp-server-commands"],
   })
 )
 
@@ -225,7 +214,6 @@ const mcpServers = [
 
   // development
   filesystemServer,
-  mcpServerCommandsServer,
   githubServer,
   ...ragServers,
 
