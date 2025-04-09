@@ -12,3 +12,4 @@ claude_desktop_config.json
 .cspellcache
 
 /stored_knowledge.json
+local.mcp.json

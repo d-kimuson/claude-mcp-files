@@ -14,9 +14,6 @@ const trustedTools = [
   // think
   "think",
 
-  // sequential-thinking
-  "sequentialthinking",
-
   // === research ===
   // exa
   "search",

@@ -33,17 +33,6 @@ const envSchemas = {
  * Thinking
  */
 
-const sequentialThinkingServer = defineMcpServer(
-  "sequential-thinking",
-  v.object({
-    MCP_NPX_PATH: envSchemas.MCP_NPX_PATH,
-  }),
-  ({ env }) => ({
-    command: env.MCP_NPX_PATH,
-    args: ["-y", "@modelcontextprotocol/server-sequential-thinking"],
-  })
-)
-
 const thinkServer = defineMcpServer(
   "think",
   v.object({
@@ -244,7 +233,6 @@ const playwrightServer = defineMcpServer(
 const mcpServers = [
   // thinking
   thinkServer,
-  sequentialThinkingServer,
 
   // research
   exaMcpServer,
