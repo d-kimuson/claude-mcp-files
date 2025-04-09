@@ -200,21 +200,6 @@ const esaServer = defineMcpServer(
   })
 )
 
-const figmaServer = defineMcpServer(
-  "figma-developer-mcp",
-  v.object({
-    MCP_NPX_PATH: envSchemas.MCP_NPX_PATH,
-    MCP_FIGMA_API_KEY: envSchemas.MCP_FIGMA_API_KEY,
-  }),
-  ({ env }) => ({
-    command: env.MCP_NPX_PATH,
-    args: ["-y", "figma-developer-mcp", "--stdio"],
-    env: {
-      FIGMA_API_KEY: env.MCP_FIGMA_API_KEY,
-    },
-  })
-)
-
 /**
  * Others
  */
@@ -247,7 +232,6 @@ const mcpServers = [
   // saas
   slackServer,
   esaServer,
-  figmaServer,
 
   // others
   playwrightServer,

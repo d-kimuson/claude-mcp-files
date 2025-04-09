@@ -49,8 +49,8 @@ const trustedTools = [
   "read_esa_post",
   "read_esa_multiple_posts",
 
-  // figma-developer-mcp
-  "get_figma_data",
+  // figma
+  "get_figma_node",
 ]
 
 const trustedPrefixes = []
