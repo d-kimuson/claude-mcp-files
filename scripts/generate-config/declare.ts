@@ -1,6 +1,7 @@
 import { resolve } from "node:path"
 import { createGenerateConfig, defineMcpServer, dirs } from "./helper"
 import * as v from "valibot"
+import { homedir } from "node:os"
 
 const envSchemas = {
   MCP_ESA_API_KEY: v.string(),
@@ -45,36 +46,6 @@ const thinkServer = defineMcpServer(
 )
 
 /**
- * Research
- */
-
-const exaMcpServer = defineMcpServer(
-  "exa",
-  v.object({
-    MCP_NPX_PATH: envSchemas.MCP_NPX_PATH,
-    MCP_EXA_API_KEY: envSchemas.MCP_EXA_API_KEY,
-  }),
-  ({ env }) => ({
-    command: env.MCP_NPX_PATH,
-    args: ["-y", "exa-mcp-server"],
-    env: {
-      EXA_API_KEY: env.MCP_EXA_API_KEY,
-    },
-  })
-)
-
-const fetchServer = defineMcpServer(
-  "fetch",
-  v.object({
-    MCP_UVX_PATH: envSchemas.MCP_UVX_PATH,
-  }),
-  ({ env }) => ({
-    command: env.MCP_UVX_PATH,
-    args: ["mcp-server-fetch"],
-  })
-)
-
-/**
  * Development
  */
 
@@ -96,111 +67,18 @@ const filesystemServer = defineMcpServer(
   })
 )
 
-const ragProjects = v
-  .parse(envSchemas.MCP_RAG_PROJECTS, process.env["MCP_RAG_PROJECTS"])
-  .split(",")
-  .filter((project) => project.trim() !== "")
-  .map((path) => path.replace("$HOME", dirs.home).replace("~", dirs.home))
-  .map((path) => {
-    const name = path
-      .replace(dirs.home, "")
-      .split("/")
-      .filter((part) => part.trim() !== "")
-      .join("-")
-      .toLocaleLowerCase()
-
-    return {
-      name,
-      path,
-    }
-  })
-
-const ragServers = ragProjects.map((project) =>
-  defineMcpServer(
-    `rag-codebase-${project.name}`,
-    v.object({
-      MCP_NODE_PATH: envSchemas.MCP_NODE_PATH,
-      MCP_OPENAI_API_KEY: envSchemas.MCP_OPENAI_API_KEY,
-    }),
-    ({ env }) => ({
-      command: env.MCP_NODE_PATH,
-      args: [
-        resolve(process.cwd(), "packages", "rag", "dist", "index.js"),
-        project.name,
-        project.path,
-      ],
-      env: {
-        OPENAI_API_KEY: env.MCP_OPENAI_API_KEY,
-      },
-    })
-  )
-)
-
-const githubServer = defineMcpServer(
-  "github",
-  v.object({
-    MCP_NPX_PATH: envSchemas.MCP_NPX_PATH,
-    MCP_GITHUB_TOKEN: envSchemas.MCP_GITHUB_TOKEN,
-  }),
-  ({ env }) => ({
-    command: env.MCP_NPX_PATH,
-    args: ["-y", "@modelcontextprotocol/server-github"],
-    env: {
-      GITHUB_PERSONAL_ACCESS_TOKEN: env.MCP_GITHUB_TOKEN,
-    },
-  })
-)
-
-/**
- * SaaS
- */
-
-const slackServer = defineMcpServer(
-  "slack",
-  v.object({
-    MCP_NPX_PATH: envSchemas.MCP_NPX_PATH,
-    MCP_SLACK_BOT_TOKEN: envSchemas.MCP_SLACK_BOT_TOKEN,
-    MCP_SLACK_TEAM_ID: envSchemas.MCP_SLACK_TEAM_ID,
-  }),
-  ({ env }) => ({
-    command: env.MCP_NPX_PATH,
-    args: ["-y", "@modelcontextprotocol/server-slack"],
-    env: {
-      SLACK_BOT_TOKEN: env.MCP_SLACK_BOT_TOKEN,
-      SLACK_TEAM_ID: env.MCP_SLACK_TEAM_ID,
-    },
-  })
-)
-
-const esaServer = defineMcpServer(
-  "esa-mcp-server",
-  v.object({
-    MCP_NPX_PATH: envSchemas.MCP_NPX_PATH,
-    MCP_ESA_API_KEY: envSchemas.MCP_ESA_API_KEY,
-    MCP_ESA_DEFAULT_TEAM: envSchemas.MCP_ESA_DEFAULT_TEAM,
-  }),
-  ({ env }) => ({
-    command: env.MCP_NPX_PATH,
-    args: ["-y", "esa-mcp-server"],
-    env: {
-      ESA_API_KEY: env.MCP_ESA_API_KEY,
-      DEFAULT_ESA_TEAM: env.MCP_ESA_DEFAULT_TEAM,
-    },
-  })
-)
-
-/**
- * Others
- */
-
-const playwrightServer = defineMcpServer(
-  "playwright",
+const modularMcpServer = defineMcpServer(
+  "modular-mcp",
   v.object({
     MCP_NPX_PATH: envSchemas.MCP_NPX_PATH,
   }),
   ({ env }) => ({
     command: env.MCP_NPX_PATH,
-    args: ["-y", "@playwright/mcp@latest"],
+    args: [
+      "-y",
+      "@kimuson/modular-mcp@latest",
+      `${homedir()}/dotfiles/modular-mcp.json`,
+    ],
   })
 )
 
@@ -208,21 +86,11 @@ const mcpServers = [
   // thinking
   thinkServer,
 
-  // research
-  exaMcpServer,
-  fetchServer,
-
   // development
   filesystemServer,
-  githubServer,
-  ...ragServers,
-
-  // saas
-  slackServer,
-  esaServer,
 
   // others
-  playwrightServer,
+  modularMcpServer,
 ] as const
 
 export type McpServerName = (typeof mcpServers)[number]["name"]
